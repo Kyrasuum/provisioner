@@ -1,0 +1,2 @@
+from ghcr.io/rust-lang/rust:nightly-bullseye-slim
+ENV CROSS_DOCKER_IN_DOCKER=true

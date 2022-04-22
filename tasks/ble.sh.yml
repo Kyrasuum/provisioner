@@ -1,0 +1,16 @@
+  - name: Install General Utilities
+    become: true
+    apt:
+        name: [
+          lm-sensors,
+          landscape-common
+        ]
+
+  - name: Clone ble.sh
+    shell: git clone --recursive https://github.com/akinomyoga/ble.sh.git "{{ home }}/ble.sh"
+
+  - name: Install ble.sh
+    shell: make -C "{{ home }}/ble.sh" install PREFIX="{{ home }}/.local"
+
+  - name: Append to bashrc
+    shell: cat config/bash/.bashrc >> "{{ home }}/.bashrc"

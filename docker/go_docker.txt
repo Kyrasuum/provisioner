@@ -1,0 +1,2 @@
+from golang
+ENV CROSS_DOCKER_IN_DOCKER=true

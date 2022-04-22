@@ -1,0 +1,9 @@
+  - name: Add blender Repo
+    become: true
+    apt_repository:
+        repo: ppa:savoury1/blender
+
+  - name: Install Blender
+    become: true
+    apt:
+        name: blender

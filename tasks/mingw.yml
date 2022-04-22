@@ -1,0 +1,6 @@
+  - name: Install Graphics Packages
+    become: true
+    apt:
+        name: [
+            mingw-w64
+        ]

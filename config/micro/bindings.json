@@ -1,0 +1,17 @@
+{
+    "Alt-,": "DeleteWordLeft",
+    "Alt-.": "DeleteWordRight",
+    "Alt-/": "lua:comment.comment",
+    "Alt-Backspace": "None",
+    "Alt-CtrlH": "None",
+    "Alt-d": "command:tree",
+    "Alt-s": "NextTab",
+    "Alt-x": "PreviousTab",
+    "Ctrl-Alt-r": "command-edit:replaceall ",
+    "Ctrl-r": "command-edit:replace ",
+    "Ctrl-v": "Paste",
+    "CtrlUnderscore": "lua:comment.comment",
+    "F4": "command:jumptag",
+    "F5": "lua:wc.wordCount",
+    "F6": "command-edit:gorename"
+}

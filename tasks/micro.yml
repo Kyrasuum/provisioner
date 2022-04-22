@@ -1,0 +1,22 @@
+  - name: Install micro
+    become: true
+    shell: curl https://getmic.ro | bash && mv ./micro /usr/bin/
+
+  - name: Setup micro directory
+    shell: mkdir -p "{{ home }}/.config/micro"
+
+  - name: Install key bindings
+    shell: cp config/micro/bindings.json "{{ home }}/.config/micro/"
+    
+  - name: Setup micro plugins
+    shell: micro -plugin install filemanager jump quoter go manipulator wc yapf literatre status autoclose comment diff ftoptions linter
+
+  - name: Override default filemanager
+    shell:  curl https://raw.githubusercontent.com/Kyrasuum/filemanager-plugin/master/filemanager.lua > "{{ home }}/.config/micro/plug/filemanager/filemanager.lua"
+
+  - name: Install colorscheme
+    shell: mkdir -p ~/.config/micro/colorschemes && cp micro-config/sublime.micro "{{ home }}/.config/micro/colorscheme/"
+
+  - name: Set default git editor
+    become: true
+    shell: git config --global core.editor micro
