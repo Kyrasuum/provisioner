@@ -1,16 +1,16 @@
   - name: Debug Common Start
     debug:
       msg: "Starting Common"
-    when: common.start is defined
+    when: common_start is defined
     
   - name: Debug Common End
     debug:
       msg: "Finished Common"
-    when: common.end is defined
+    when: common_end is defined
   
   - name: Install General Utilities
     become: true
-    register: common.start
+    register: common_start
     apt:
         name: [
             apt-utils,
@@ -65,6 +65,6 @@
 
   - name: Build cunity
     become: true
-    register: common.end
+    register: common_end
     shell: "cd {{ home }}/cunit && cmake -H. -Bbuild && cmake --build build && cmake --install build"
 
