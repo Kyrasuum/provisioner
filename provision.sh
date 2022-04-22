@@ -4,8 +4,10 @@
 # which will finish the provisioning process.
 
 main() {
+    sudo apt update
+    DEBIAN_FRONTEND=noninteractive sudo apt install -y software-properties-common
     sudo apt-add-repository -y --update ppa:ansible/ansible
-    DEBIAN_FRONTEND=noninteractive sudo apt install -y ansible git software-properties-common
+    DEBIAN_FRONTEND=noninteractive sudo apt install -y software-properties-common
     ansible-pull -U https://github.com/kyrasuum/provisioner
 }
 
