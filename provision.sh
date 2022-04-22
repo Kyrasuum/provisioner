@@ -5,9 +5,9 @@
 
 main() {
     sudo apt update
-    DEBIAN_FRONTEND=noninteractive sudo apt install -y software-properties-common
+    sudo DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
     sudo apt-add-repository -y --update ppa:ansible/ansible
-    DEBIAN_FRONTEND=noninteractive sudo apt install -y software-properties-common
+    sudo DEBIAN_FRONTEND=noninteractive apt install -y ansible git
     ansible-pull -U https://github.com/kyrasuum/provisioner
 }
 
