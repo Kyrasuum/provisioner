@@ -32,7 +32,7 @@
 
   - name: Install Python Packages
     become: true
-    pip3:
+    pip:
         name: [
             pyyaml,
             Mako,
