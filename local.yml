@@ -1,7 +1,7 @@
 ---
 - name: Standardizing development environment
   vars:
-    home: "{{ lookup(env, HOME) }}"
+    home: "{{ lookup('env', 'HOME') }}"
   hosts: localhost
   pre_tasks:
     - include: tasks/common.yml
