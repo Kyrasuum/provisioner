@@ -1,4 +1,4 @@
-  - name: Install General Utilities
+  - name: Install Ble Dependencies
     become: true
     apt:
         name: [
@@ -11,7 +11,7 @@
     shell: git clone --recursive https://github.com/akinomyoga/ble.sh.git "{{ home }}/.config/ble.sh"
 
   - name: Install ble.sh
-    shell: make -C "{{ home }}/.config/ble.sh" install PREFIX="{{ home }}/.config"
+    shell: make -C "{{ home }}/.config/ble.sh" install DESTDIR="{{ home }}/.config/ble.sh" PREFIX=/usr/local
 
   - name: Append to bashrc
     shell: cat config/bash/.bashrc >> "{{ home }}/.bashrc"

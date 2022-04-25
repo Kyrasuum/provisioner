@@ -29,6 +29,8 @@
     - include: tasks/wine.yml
     - include: tasks/acrobat.yml
     
+    - include: tasks/haxe.yml
+
     - include: tasks/terminator.yml
     - include: tasks/ble.sh.yml
     - include: tasks/micro.yml
