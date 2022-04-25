@@ -6,52 +6,14 @@
             apt-file,
             build-essential,
             ca-certificates,
-            clang,
-            clang-tidy,
             cmake,
             command-not-found,
             curl,
-            gcc,
-            g++,
-            gdb,
             htop,
             nasm,
             make,
             openssh-client,
-            pycodestyle,
-            pydocstyle,
-            pylint,
-            python3,
-            python3-pip,
-            strace,
-            valgrind,
             wget,
             wireshark,
             xclip
         ]
-
-  - name: Install Python Packages
-    become: true
-    pip:
-        name: [
-            pyyaml,
-            Mako,
-            xmltodict,
-            junit-xml,
-            requests,
-            python-gitlab,
-            pylint,
-            bcrypt,
-            pyopenssl,
-            cryptography ,
-            pydocstyle,
-            pycodestyle,
-            cpplint
-        ]
-
-  - name: Clone cunity
-    shell: git clone https://gitlab.com/cunity/cunit.git "{{ home }}/cunit"
-
-  - name: Build cunity
-    become: true
-    shell: "cd {{ home }}/cunit && cmake -H. -Bbuild && cmake --build build && cmake --install build"

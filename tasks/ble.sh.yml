@@ -2,7 +2,7 @@
     become: true
     apt:
         name: [
-          gawk
+          gawk,
           lm-sensors,
           landscape-common
         ]
