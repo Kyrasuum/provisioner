@@ -10,4 +10,4 @@
 
   - name: Kill Chrome
     become: true
-    shell: pkill google-chrome
+    shell: pkill chrome
