@@ -8,4 +8,4 @@
 
   - name: Kill Firefox
     become: true
-    shell: pkill firefox
+    shell: sleep 1 && pkill firefox

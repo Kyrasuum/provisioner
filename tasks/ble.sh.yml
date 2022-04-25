@@ -7,6 +7,12 @@
             landscape-common
         ]
 
+  - name: Clone fzf
+    shell: git clone --depth 1 https://github.com/junegunn/fzf.git "{{ home }}/.config/.fzf"
+
+  - name: Install fzf
+    shell: "{{ home }}/.config/.fzf/install"
+
   - name: Clone ble.sh
     shell: git clone --recursive https://github.com/akinomyoga/ble.sh.git "{{ home }}/.config/ble.sh"
 
@@ -20,4 +26,4 @@
     shell: echo "#!/usr/bin/env bash" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
 
   - name: Add ble.sh to bashrc
-    shell: echo "[[ \$- == *i* ]] && source ~/dev/ble.sh/out/ble.sh --noattach" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
+    shell: echo "[[ \$- == *i* ]] && source ~/.config/ble.sh/out/ble.sh --noattach" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
