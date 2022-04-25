@@ -1,0 +1,11 @@
+  - name: Install Firefox
+    become: true
+    apt:
+        name: firefox
+
+  - name: Run Firefox
+    shell: firefox &
+
+  - name: Kill Firefox
+    become: true
+    shell: pkill firefox

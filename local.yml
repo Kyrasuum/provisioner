@@ -7,10 +7,13 @@
     - include: tasks/common.yml
   tasks:
     - include: tasks/go.yml
-    - include: tasks/cac.yml
     - include: tasks/docker.yml
     - include: tasks/node.yml
     - include: tasks/vue.yml
+    - include: tasks/postgres.yml
+    - include: tasks/firefox.yml
+    - include: tasks/chrome.yml
+    - include: tasks/cac.yml
     
     - include: tasks/graphics.yml
     - include: tasks/mingw.yml

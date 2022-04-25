@@ -1,2 +1,0 @@
-from mono
-ENV CROSS_DOCKER_IN_DOCKER=true
