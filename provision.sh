@@ -8,7 +8,9 @@ main() {
     sudo DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
     sudo apt-add-repository -y --update ppa:ansible/ansible
     sudo DEBIAN_FRONTEND=noninteractive apt install -y ansible git
-    ansible-pull -U https://github.com/kyrasuum/provisioner
+    git -C /tmp clone https://github.com/kyrasuum/provisioner.git -v --progress 2>&1
+    cd /tmp/provisioner && ansible-playbook local.yml
+    rm -rf /tmp/provisioner
 }
 
 main
