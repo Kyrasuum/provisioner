@@ -10,4 +10,4 @@
 
   - name: Kill Chrome
     become: true
-    shell: pkill chrome
+    shell: sleep 1 && pkill chrome
