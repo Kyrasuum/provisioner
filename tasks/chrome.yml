@@ -1,9 +1,9 @@
   - name: Download Chrome
-    shell: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > "{{ home }}/google-chrome-stable_current_amd64.deb"
+    shell: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o "{{ home }}/google-chrome-stable_current_amd64.deb"
 
   - name: Install Chrome
     become: true
-    shell: dpkg -i "{{ home }}/google-chrome-stable_current_amd64.deb"
+    shell: apt install "{{ home }}/google-chrome-stable_current_amd64.deb"
 
   - name: Run Chrome
     shell: google-chrome &
