@@ -7,8 +7,8 @@ To run the provisioner, execute one of the following commands:
 
 | Method | Command |
 |:-:|:-:|
-| `wget` | `sudo sh -c "$(wget https://raw.githubusercontent.com/jdjaxon/provisioner/main/provision.sh -O -)"` |
-| `curl` | `sudo sh -c "$(curl -fsSL https://raw.github.com/jdjaxon/provisioner/main/provision.sh)"` |
+| `wget` | `sudo sh -c "$(wget https://raw.githubusercontent.com/kyrasuum/provisioner/main/provision.sh -O -)"` |
+| `curl` | `sudo sh -c "$(curl -fsSL https://raw.github.com/kyrasuum/provisioner/main/provision.sh)"` |
 
 **NOTE:** For running with docker, see the [Testing](#testing) section.
 

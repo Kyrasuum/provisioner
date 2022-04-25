@@ -4,7 +4,7 @@
 
   - name: Sign Postgres PPA
     become: true
-    shell:wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+    shell: wget --quiet -O - "https://www.postgresql.org/media/keys/ACCC4CF8.asc" | apt-key add -
 
   - name: Update
     become: true
