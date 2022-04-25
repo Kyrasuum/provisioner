@@ -1,3 +1,4 @@
+#!/usr/bin/env -S ansible-playbook -K
 ---
 - name: Standardizing development environment
   vars:
@@ -6,11 +7,11 @@
   pre_tasks:
     - include: tasks/common.yml
   tasks:
-    - include: tasks/go.yml
-    - include: tasks/docker.yml
-    - include: tasks/node.yml
-    - include: tasks/vue.yml
-    - include: tasks/postgres.yml
+    # - include: tasks/go.yml
+    # - include: tasks/docker.yml
+    # - include: tasks/node.yml
+    # - include: tasks/vue.yml
+    # - include: tasks/postgres.yml
     - include: tasks/firefox.yml
     - include: tasks/chrome.yml
     - include: tasks/cac.yml
