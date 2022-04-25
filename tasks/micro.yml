@@ -15,7 +15,7 @@
     shell:  curl https://raw.githubusercontent.com/Kyrasuum/filemanager-plugin/master/filemanager.lua > "{{ home }}/.config/micro/plug/filemanager/filemanager.lua"
 
   - name: Install colorscheme
-    shell: mkdir -p "{{ home }}/.config/micro/colorschemes" && cp config/micro/sublime.micro "{{ home }}/.config/micro/colorscheme/"
+    shell: mkdir -p "{{ home }}/.config/micro/colorschemes" && cp config/micro/sublime.micro "{{ home }}/.config/micro/colorschemes/"
 
   - name: Set default git editor
     become: true
