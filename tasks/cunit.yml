@@ -1,6 +1,6 @@
   - name: Clone cunity
-    shell: git clone https://gitlab.com/cunity/cunit.git "{{ home }}/cunit"
+    shell: git clone https://gitlab.com/cunity/cunit.git "{{ home }}/.config/cunit"
 
   - name: Build cunity
     become: true
-    shell: "cd {{ home }}/cunit && cmake -H. -Bbuild && cmake --build build && cmake --install build"
+    shell: "cd {{ home }}/.config/cunit && cmake -H. -Bbuild && cmake --build build && cmake --install build"

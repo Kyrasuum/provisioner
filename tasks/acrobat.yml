@@ -23,4 +23,4 @@
     become: true
     shell: dpkg -i "{{ home }}/adobe.deb"
 
-# run acroread
+# acroread

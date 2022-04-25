@@ -13,4 +13,4 @@
   - name: Download Acrobat
     shell: wget -O "{{ home }}/adobe.exe" https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/1800920044/AcroRdrDC1800920044_en_US.exe
 
-# wine "{{ home }}/adobe.exe"
+# wine ~/adobe.exe
