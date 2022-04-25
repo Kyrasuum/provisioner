@@ -8,10 +8,10 @@
         ]
 
   - name: Clone ble.sh
-    shell: git clone --recursive https://github.com/akinomyoga/ble.sh.git "{{ home }}/ble.sh"
+    shell: git clone --recursive https://github.com/akinomyoga/ble.sh.git "{{ home }}/.config/ble.sh"
 
   - name: Install ble.sh
-    shell: make -C "{{ home }}/ble.sh" install PREFIX="{{ home }}/.local"
+    shell: make -C "{{ home }}/.config/ble.sh" install PREFIX="{{ home }}/.config"
 
   - name: Append to bashrc
     shell: cat config/bash/.bashrc >> "{{ home }}/.bashrc"

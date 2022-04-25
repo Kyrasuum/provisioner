@@ -17,3 +17,10 @@
             wireshark,
             xclip
         ]
+
+  - name: Update Apt
+    become: true
+    shell: apt update
+
+  - name: Setup config directory
+    shell: mkdir -p "{{ home }}/.config"
