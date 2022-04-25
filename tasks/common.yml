@@ -1,7 +1,3 @@
-  - name: Debug Common Start
-    debug:
-      msg: "Starting Common"
-    
   - name: Install General Utilities
     become: true
     apt:
@@ -59,7 +55,3 @@
   - name: Build cunity
     become: true
     shell: "cd {{ home }}/cunit && cmake -H. -Bbuild && cmake --build build && cmake --install build"
-
-  - name: Debug Common End
-    debug:
-      msg: "Finished Common"
