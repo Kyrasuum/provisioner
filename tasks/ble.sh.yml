@@ -2,9 +2,9 @@
     become: true
     apt:
         name: [
-          gawk,
-          lm-sensors,
-          landscape-common
+            gawk,
+            lm-sensors,
+            landscape-common
         ]
 
   - name: Clone ble.sh
