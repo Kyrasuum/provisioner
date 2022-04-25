@@ -6,4 +6,5 @@ RUN useradd -ms /bin/bash docker && echo "docker:docker" | chpasswd && adduser d
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER docker
 WORKDIR /home/docker
+ENV CROSS_DOCKER_IN_DOCKER=true
 RUN sh -c "$(wget https://raw.githubusercontent.com/kyrasuum/provisioner/main/provision.sh -O -)"

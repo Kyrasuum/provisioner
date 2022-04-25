@@ -15,3 +15,6 @@
 
   - name: Append to bashrc
     shell: cat config/bash/.bashrc >> "{{ home }}/.bashrc"
+
+  - name: Add ble.sh to bashrc
+    shell: echo "[[ $- == *i* ]] && source ~/dev/ble.sh/out/ble.sh --noattach" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
