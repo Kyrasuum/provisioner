@@ -1,0 +1,11 @@
+  - name: Install Tilix
+    become: true
+    apt:
+        name: [
+            tilix,
+            libvte-2.91-0,
+            libvte-2.91-common
+        ]
+
+  - name: Set tilix config
+    shell: dconf lod /com/gexperts/Tilix/ < "{{ home }}/.config/tilix/config"

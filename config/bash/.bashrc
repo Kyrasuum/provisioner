@@ -185,3 +185,33 @@ bind 'set show-all-if-ambiguous on'
 bind 'set menu-complete-display-prefix on'
 bind 'TAB:menu-complete'
 bind 'set colored-completion-prefix on'
+
+bind -x '"\C-l": clear; ls'
+
+bind '"\C-a": "\e[1;3D\C-y\e[1;3C"'
+
+bind '"\e[1;3D": beginning-of-line'
+bind '"\e[1;3C": end-of-line'
+
+ble-bind -m 'emacs' -f 'M-S-left' '@marked beginning-of-line'
+ble-bind -m 'emacs' -f 'M-S-right' '@marked end-of-line'
+
+ble-bind -m 'emacs' -f 'S-left' '@marked backward-char'
+ble-bind -m 'emacs' -f 'S-right' '@marked forward-char'
+
+ble-bind -m 'emacs' -f 'C-z' 'emacs/undo'
+ble-bind -m 'emacs' -f 'C-M-z' 'emacs/redo'
+
+ble-bind -m 'emacs' -f 'M-c' 'set-mark'
+ble-bind -m 'emacs' -f 'C-c' 'copy-region-or discard-line'
+
+ble-bind -m 'emacs' -f 'M-,' 'kill-backward-cword'
+ble-bind -m 'emacs' -f 'M-.' 'kill-forward-cword'
+
+function ble/widget/.copy-range {
+  local p0 p1 len
+  ble/widget/.process-range-argument "${@:1:2}" || return 1
+
+  # copy
+  echo -n "${_ble_edit_str:p0:len}" | xclip -selection "clipboard"
+}
