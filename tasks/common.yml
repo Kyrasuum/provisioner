@@ -10,6 +10,8 @@
             cmake,
             command-not-found,
             curl,
+            gnome-shell-extensions,
+            chrome-gnome-shell,
             fzf,
             htop,
             nasm,
