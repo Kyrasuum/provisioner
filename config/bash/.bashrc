@@ -215,3 +215,22 @@ function ble/widget/.copy-range {
   # copy
   echo -n "${_ble_edit_str:p0:len}" | xclip -selection "clipboard"
 }
+
+export XDG_DATA_HOME="$HOME"/.local/share
+export XDG_CONFIG_HOME="$HOME"/.config
+export XDG_STATE_HOME="$HOME"/.local/state
+export XDG_CACHE_HOME="$HOME"/.cache
+
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+export GOPATH="$XDG_DATA_HOME"/go
+export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
+export WINEPREFIX="$XDG_DATA_HOME"/wine
+export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
+export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+
+yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
