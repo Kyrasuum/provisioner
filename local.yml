@@ -23,15 +23,15 @@
     - include: tasks/cac.yml
     
     - include: tasks/graphics.yml
-    - include: tasks/mingw.yml
-    - include: tasks/blender.yml
+    # - include: tasks/mingw.yml
+    # - include: tasks/blender.yml
     
-    - include: tasks/wine.yml
-    - include: tasks/acrobat.yml
+    # - include: tasks/wine.yml
+    # - include: tasks/acrobat.yml
     
     - include: tasks/haxe.yml
     
-    - include: tasks/terminator.yml
+    # - include: tasks/terminator.yml
     - include: tasks/tilix.yml
     - include: tasks/ble.sh.yml
     - include: tasks/micro.yml

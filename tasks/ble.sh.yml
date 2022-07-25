@@ -20,10 +20,10 @@
     shell: make -C "{{ home }}/.config/ble.sh" install DESTDIR="{{ home }}/.config/ble.sh" PREFIX=/usr/local
 
   - name: Append to bashrc
-    shell: cat config/bash/.bashrc >> "{{ home }}/.bashrc"
-
-  - name: Add shebang to bashrc
-    shell: echo "#!/usr/bin/env bash" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
+    shell: cat config/bash/.bashrc > "{{ home }}/.bashrc"
 
   - name: Add ble.sh to bashrc
     shell: echo "[[ \$- == *i* ]] && source ~/.config/ble.sh/out/ble.sh --noattach" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
+
+  - name: Add shebang to bashrc
+    shell: echo "#!/usr/bin/env bash" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"

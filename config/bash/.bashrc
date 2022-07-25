@@ -1,6 +1,3 @@
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 source /etc/profile.d/bash_completion.sh
 
 export TERM=xterm-256color
@@ -45,19 +42,28 @@ ttos (){
 docker-start (){
     if [[ $# -gt 0 ]]
     then
-        docker run -itd "$2" --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /var/run/docker.sock:/var/run/docker.sock --device=/dev/dri:/dev/dri "$1" bash
+        docker run -itd $2 --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /var/run/docker.sock:/var/run/docker.sock --device=/dev/dri:/dev/dri $1 bash
     fi    
 }
 
 docker-join (){
     if [[ $# -gt 0 ]]
     then
-        docker exec -it "$2" -e DISPLAY "$1" bash
+        docker exec -it $2 -e DISPLAY $1 bash
     fi
 }
 
 docker-x11 (){
-    docker run -it --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /var/run/docker.sock:/var/run/docker.sock --device=/dev/dri:/dev/dri "$1" bash
+    docker run -it --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /var/run/docker.sock:/var/run/docker.sock --device=/dev/dri:/dev/dri $1 bash
+}
+
+docker-build (){
+    if [[ $# -gt 0 ]]
+    then
+        docker build . -t $1
+    else
+        docker build .
+    fi
 }
 
 git-https-to-shh (){
@@ -93,17 +99,61 @@ git-https-to-shh (){
     echo "Success"
 }
 
+# added by pipx (https://github.com/pipxproject/pipx)
+export PATH="$PATH:/home/phillip/.local/bin"
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+ble-sabbrev dm='docker container kill $(docker container ps -q) && docker rm $(docker ps -aq)'
 alias dm='docker rm $(docker ps -aq)'
+ble-sabbrev dn='docker image rm $(docker images -aq) --force'
 alias dn='docker image rm $(docker images -aq) --force'
+ble-sabbrev dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
 alias dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
 
+ble-sabbrev dcu='docker-compose up '
 alias dcu='docker-compose up'
+ble-sabbrev dcub='docker-compose up --build'
 alias dcub='docker-compose up --build'
 
+ble-sabbrev sonarsc='sonar-scanner -Dsonar.login=edf0042d0b8d63db8d84c1691c0c034dfda02aeb'
 alias sonarsc='sonar-scanner -Dsonar.login=edf0042d0b8d63db8d84c1691c0c034dfda02aeb'
+ble-sabbrev dcheck='dependency-check.sh --scan . --format HTML --format JSON --enableExperimental --out reports/'
 alias dcheck='dependency-check.sh --scan . --format HTML --format JSON --enableExperimental --out reports/'
 
+xhost local:docker 2>/dev/null >/dev/null || : # allow docker to send to us
+export MICRO_TRUECOLOR=1
 shopt -s autocd #enable changing directory by typing folder name
+
+sysinfo (){
+    for i in /etc/update-motd.d/*; do if [ "$i" != "/etc/update-motd.d/98-fsck-at-reboot" ]; then $i; fi; done
+}
+sysinfo
 
 alias sshfs-aws='sshfs ec2-user@ec2-54-152-174-193.compute-1.amazonaws.com:/home/ec2-user/dev ~/dev/ec2 -o IdentityFile=~/.ssh/aws-ec2.pem'
 alias ssh-aws='ssh -i "~/.ssh/aws-ec2.pem" ec2-user@ec2-54-152-174-193.compute-1.amazonaws.com'
@@ -111,37 +161,6 @@ alias ssh-aws='ssh -i "~/.ssh/aws-ec2.pem" ec2-user@ec2-54-152-174-193.compute-1
 _ble_contrib_fzf_base=~/.fzf
 _ble_contrib_fzf_git_config=key-binding:sabbrev:arpeggio
 export PATH="${PATH:+${PATH}:}~/.fzf/bin"
-
-# some git abbrevs
-alias g='git'
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gl='git pull'
-alias gp='git push'
-alias gba='git branch -a'
-alias grs='git restore'
-alias gco='git checkout'
-# fzf-git has gf gb gt gh gr
-
-# some ls abbrevs
-alias ll='ls -lisAH'
-alias la='ls -A'
-alias l='ls -CF'
-
-xhost local:docker 2>/dev/null >/dev/null || : # allow docker to send to us
-export MICRO_TRUECOLOR=1
-
-
-ble-sabbrev sonarsc='sonar-scanner -Dsonar.login=edf0042d0b8d63db8d84c1691c0c034dfda02aeb'
-ble-sabbrev dcheck='dependency-check.sh --scan . --format HTML --format JSON --enableExperimental --out reports/'
-
-ble-sabbrev dcu='docker-compose up '
-ble-sabbrev dcub='docker-compose up --build'
-
-ble-sabbrev dm='docker rm $(docker ps -aq)'
-ble-sabbrev dn='docker image rm $(docker images -aq) --force'
-ble-sabbrev dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
 
 [[ ${BLE_VERSION-} ]] && ble-attach
 [[ ${BLE_VERSION-} ]] && ble-import -d contrib/fzf-completion
@@ -163,15 +182,36 @@ ble-bind -m 'emacs' -c 'C-l' "clear -x"
 ble-bind -f up 'history-search-backward immediate-accept'
 ble-bind -f down 'history-search-forward immediate-accept'
 
+# some git abbrevs
 ble-sabbrev g='git'
+alias g='git'
 ble-sabbrev gs='git status'
+alias gs='git status'
 ble-sabbrev ga='git add'
+alias ga='git add'
 ble-sabbrev gc='git commit'
+alias gc='git commit'
 ble-sabbrev gl='git pull'
+alias gl='git pull'
 ble-sabbrev gp='git push -u origin `git symbolic-ref HEAD --short`'
+alias gp='git push'
 ble-sabbrev gba='git branch -a'
+alias gba='git branch -a'
 ble-sabbrev grs='git restore'
+alias grs='git restore'
 ble-sabbrev gco='git checkout'
+alias gco='git checkout'
+ble-sabbrev gcl='{ git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
+alias gcl='{ git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
+# fzf-git has gf gb gt gh gr
+
+ble-sabbrev ofe='nautilus . &'
+alias ofe='nautilus . &'
+
+# some ls abbrevs
+alias ll='ls -lisAH'
+alias la='ls -A'
+alias l='ls -CF'
 
 bleopt complete_auto_history=
 # bleopt complete_auto_complete=
@@ -224,7 +264,6 @@ export XDG_CACHE_HOME="$HOME"/.cache
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
-export GOPATH="$XDG_DATA_HOME"/go
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export WINEPREFIX="$XDG_DATA_HOME"/wine
@@ -232,5 +271,11 @@ export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 
-yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"
-alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
+alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
+
+alias ssh-diagon='ssh defender@diagon.defenders.dev -p 6666'
+alias sshfs-diagon='sshfs defender@diagon.defenders.dev:cerebro ~/dev/cerebro-diagon -p 6666'
+
+# NNN file browser
+export PATH="$PATH:${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
