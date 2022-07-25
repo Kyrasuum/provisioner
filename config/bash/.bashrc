@@ -130,7 +130,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 ble-sabbrev dm='docker container kill $(docker container ps -q) && docker rm $(docker ps -aq)'
-alias dm='docker rm $(docker ps -aq)'
+alias dm='docker container kill $(docker container ps -q) && docker rm $(docker ps -aq)'
 ble-sabbrev dn='docker image rm $(docker images -aq) --force'
 alias dn='docker image rm $(docker images -aq) --force'
 ble-sabbrev dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
