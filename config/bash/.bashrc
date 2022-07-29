@@ -129,8 +129,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-ble-sabbrev dm='docker container kill $(docker container ps -q) && docker rm $(docker ps -aq)'
-alias dm='docker container kill $(docker container ps -q) && docker rm $(docker ps -aq)'
+ble-sabbrev dm='docker container kill $(docker container ps --all -q) || docker rm $(docker ps -aq)'
+alias dm='docker container kill $(docker container ps --all -q) || docker rm $(docker ps -aq)'
 ble-sabbrev dn='docker image rm $(docker images -aq) --force'
 alias dn='docker image rm $(docker images -aq) --force'
 ble-sabbrev dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
@@ -201,8 +201,8 @@ ble-sabbrev grs='git restore'
 alias grs='git restore'
 ble-sabbrev gco='git checkout'
 alias gco='git checkout'
-ble-sabbrev gcl='{ git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
-alias gcl='{ git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
+ble-sabbrev gcl='git fetch -p && { git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
+alias gcl='git fetch -p && { git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
 # fzf-git has gf gb gt gh gr
 
 ble-sabbrev ofe='nautilus . &'
@@ -279,3 +279,65 @@ alias sshfs-diagon='sshfs defender@diagon.defenders.dev:cerebro ~/dev/cerebro-di
 
 # NNN file browser
 export PATH="$PATH:${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
+
+alias sz='source ~/.bashrc'
+
+# Project setup
+function cerebro-frontend {
+    cd "$HOME/dev/cerebro/frontend" || return
+    echo "
+    rm temp
+    . ~/.bashrc
+    micro src/store/index.ts
+    " > temp
+    tilix -a session-add-right -e "bash -c 'bash --init-file temp'"
+
+    echo "
+    rm temp
+    . ~/.bashrc
+    cd '..' || return
+    make build
+    " > temp
+    tilix -a session-add-down -e "bash -c 'bash --init-file temp'"
+
+    npm run dev
+}
+function cerebro-api {
+    cd "$HOME/dev/cerebro/api" || return
+    go build cmd/main.go
+
+    echo "
+    rm temp
+    . ~/.bashrc
+    micro internal/dbms/seed/seed.go
+    " > temp
+    tilix -a session-add-right -e "bash -c 'bash --init-file temp'"
+    tilix -a session-switch-to-terminal-2
+
+    echo "
+    rm temp
+    . ~/.bashrc
+    until ./main ./api --conn-chk > /dev/null
+    do
+        sleep 1;
+    done
+    ./main --debug
+    " > temp
+    tilix -a session-add-down -e "bash -c 'bash --init-file temp'"
+    tilix -a session-switch-to-terminal-1
+
+
+    echo "
+    rm temp
+    . ~/.bashrc
+    cd '..' || return
+    make debug-db
+    " > temp
+    tilix -a session-add-down -e "bash -c 'bash --init-file temp'"
+
+    until ./main --conn-chk > /dev/null
+    do
+        sleep 1;
+    done
+    sudo -u postgres psql -h localhost
+}

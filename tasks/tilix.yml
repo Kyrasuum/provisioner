@@ -8,7 +8,7 @@
         ]
 
   - name: Set tilix config
-    shell: dconf lod /com/gexperts/Tilix/ < "{{ home }}/.config/tilix/config"
+    shell: dconf load /com/gexperts/Tilix/ < "{{ home }}/.config/tilix/config"
 
   - name: Add tilix to bashrc
     shell: echo "if [ $TILIX_ID ] || [ $VTE_VERSION ]; then

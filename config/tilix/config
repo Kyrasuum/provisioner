@@ -2,9 +2,11 @@
 background-image-mode='stretch'
 copy-on-select=true
 focus-follow-mouse=true
+prompt-on-new-session=false
 quake-height-percent=90
 quake-hide-lose-focus=false
 quake-specific-monitor=0
+recent-session-files=['/home/phillip/Documents/cerebro.json', 'Documents/cerebro.json']
 sidebar-on-right=false
 tab-position='top'
 terminal-title-show-when-single=true
@@ -12,6 +14,8 @@ terminal-title-style='small'
 theme-variant='dark'
 unsafe-paste-alert=false
 use-tabs=true
+window-save-state=true
+window-state=87168
 window-style='borderless'
 
 [keybindings]
@@ -19,11 +23,12 @@ app-new-window='<Primary><Shift>n'
 session-add-auto='<Primary>bar'
 session-add-down='<Primary><Alt>bracketleft'
 session-add-right='<Primary><Alt>bracketright'
+session-open='<Primary><Alt>o'
 session-resize-terminal-down='disabled'
 session-resize-terminal-left='disabled'
 session-resize-terminal-right='disabled'
 session-resize-terminal-up='disabled'
-session-save='disabled'
+session-save='<Alt>o'
 session-switch-to-next-terminal='<Primary>grave'
 session-switch-to-previous-terminal='<Primary>asciitilde'
 session-switch-to-terminal-0='disabled'
