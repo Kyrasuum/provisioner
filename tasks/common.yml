@@ -1,26 +1,25 @@
   - name: Install General Utilities
     become: true
     apt:
-        name: [
-            apt-utils,
-            apt-file,
-            build-essential,
-            bash-completion,
-            ca-certificates,
-            cmake,
-            command-not-found,
-            curl,
-            gnome-shell-extensions,
-            chrome-gnome-shell,
-            fzf,
-            htop,
-            nasm,
-            make,
-            openssh-client,
-            wget,
-            wireshark,
-            xclip
-        ]
+        pkg:
+        - apt-utils
+        - apt-file
+        - build-essential
+        - bash-completion
+        - ca-certificates
+        - cmake
+        - command-not-found
+        - curl
+        - gnome-shell-extensions
+        - chrome-gnome-shell
+        - fzf
+        - htop
+        - nasm
+        - make
+        - openssh-client
+        - wget
+        - wireshark
+        - xclip
 
   - name: Update Apt
     become: true

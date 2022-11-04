@@ -1,18 +1,17 @@
   - name: Install Haxe Dependencies
     become: true
     apt:
-        name: [
-            libmbedtls-dev,
-            libopenal-dev,
-            libpng-dev,
-            libsdl2-dev,
-            libturbojpeg-dev,
-            libjpeg-turbo8,
-            libjpeg-turbo8-dev,
-            libuv1-dev,
-            libvorbis-dev,
-            neko
-        ]
+        pkg:
+        - libmbedtls-dev
+        - libopenal-dev
+        - libpng-dev
+        - libsdl2-dev
+        - libturbojpeg-dev
+        - libjpeg-turbo8
+        - libjpeg-turbo8-dev
+        - libuv1-dev
+        - libvorbis-dev
+        - neko
 
   - name: Add haxe repo
     become: true

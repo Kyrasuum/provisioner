@@ -1,7 +1,8 @@
   - name: Install Firefox
     become: true
     apt:
-        name: firefox
+        pkg:
+        - firefox
 
   - name: Run Firefox
     shell: firefox --headless &

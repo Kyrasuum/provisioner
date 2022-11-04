@@ -13,4 +13,5 @@
   - name: Install Postgres
     become: true
     apt:
-        name: postgresql
+        pkg:
+        - postgresql

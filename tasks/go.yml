@@ -6,4 +6,5 @@
   - name: Install Golang
     become: true
     apt:
-        name: golang
+        pkg:
+        - golang

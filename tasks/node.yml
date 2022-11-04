@@ -1,10 +1,9 @@
   - name: Install nodejs and npm
     become: true
     apt:
-      name: [
-        nodejs,
-        npm
-      ]
+        pkg:
+        - nodejs
+        - npm
 
   - name: Install Yarn
     become: true

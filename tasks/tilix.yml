@@ -1,11 +1,10 @@
   - name: Install Tilix
     become: true
     apt:
-        name: [
-            tilix,
-            libvte-2.91-0,
-            libvte-2.91-common
-        ]
+        pkg:
+        - tilix
+        - libvte-2.91-0
+        - libvte-2.91-common
 
   - name: Set tilix config
     shell: dconf load /com/gexperts/Tilix/ < "{{ home }}/.config/tilix/config"

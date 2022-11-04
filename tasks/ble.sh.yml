@@ -1,11 +1,10 @@
   - name: Install Ble Dependencies
     become: true
     apt:
-        name: [
-            gawk,
-            lm-sensors,
-            landscape-common
-        ]
+        pkg:
+        - gawk
+        - lm-sensors
+        - landscape-common
 
   - name: Clone fzf
     shell: git clone --depth 1 https://github.com/junegunn/fzf.git "{{ home }}/.config/.fzf"
