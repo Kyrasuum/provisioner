@@ -13,6 +13,6 @@
   - name: Install C PIP Packages
     become: true
     pip:
-        pkg:
+        name:
         - pyyaml
         - cpplint
