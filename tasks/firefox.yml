@@ -1,3 +1,23 @@
+  - name: Remove Snap Firefox
+    become: true
+    shell: snap remove firefox --purge || true
+
+  - name: Update mozilla repo
+    become: true
+    apt_repository:
+        repo: ppa:mozillateam/ppa
+
+  - name: Prioritize APT Firefox
+    become: true
+    shell: echo 'Package: *
+        Pin: release o=LP-PPA-mozillateam
+        Pin-Priority: 1001
+        ' | tee /etc/apt/preferences.d/mozilla-firefox
+
+  - name: Auto Update Firefox
+    become: true
+    shell: echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+
   - name: Install Firefox
     become: true
     apt:
@@ -9,4 +29,4 @@
 
   - name: Kill Firefox
     become: true
-    shell: sleep 1 && pkill firefox
+    shell: sleep 1 && pkill firefox || true
