@@ -5,33 +5,26 @@
     home: "{{ lookup('env', 'HOME') }}"
   hosts: localhost
   pre_tasks:
-    - include: tasks/common.yml
+    - include_tasks: tasks/common.yml
   tasks:
-    - include: tasks/python.yml
-    - include: tasks/c.yml
-    - include: tasks/go.yml
+    - include_tasks: tasks/python.yml
+    - include_tasks: tasks/c.yml
+    - include_tasks: tasks/go.yml
     
-    - include: tasks/docker.yml
-    - include: tasks/cunit.yml
+    - include_tasks: tasks/docker.yml
+    - include_tasks: tasks/cunit.yml
     
-    - include: tasks/node.yml
-    - include: tasks/vue.yml
-    - include: tasks/postgres.yml
+    - include_tasks: tasks/node.yml
+    - include_tasks: tasks/vue.yml
+    - include_tasks: tasks/postgres.yml
     
-    - include: tasks/firefox.yml
-    - include: tasks/chrome.yml
-    - include: tasks/cac.yml
+    - include_tasks: tasks/firefox.yml
+    - include_tasks: tasks/chrome.yml
+    - include_tasks: tasks/cac.yml
     
-    - include: tasks/graphics.yml
-    # - include: tasks/mingw.yml
-    # - include: tasks/blender.yml
+    - include_tasks: tasks/graphics.yml
+    - include_tasks: tasks/haxe.yml
     
-    # - include: tasks/wine.yml
-    # - include: tasks/acrobat.yml
-    
-    - include: tasks/haxe.yml
-    
-    # - include: tasks/terminator.yml
-    - include: tasks/tilix.yml
-    - include: tasks/ble.sh.yml
-    - include: tasks/micro.yml
+    - include_tasks: tasks/tilix.yml
+    - include_tasks: tasks/ble.sh.yml
+    - include_tasks: tasks/micro.yml

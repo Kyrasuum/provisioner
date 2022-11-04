@@ -1,6 +1,0 @@
-  - name: Install Mingw Packages
-    become: true
-    apt:
-        name: [
-            mingw-w64
-        ]
