@@ -11,7 +11,7 @@
   - name: Install Python PIP Packages
     become: true
     pip:
-        pkg:
+        name:
         - pyyaml
         - Mako
         - xmltodict
