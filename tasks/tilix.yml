@@ -11,6 +11,4 @@
     shell: dconf load /com/gexperts/Tilix/ < "{{ home }}/.config/tilix/config"
 
   - name: Add tilix to bashrc
-    shell: echo "if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        source /etc/profile.d/vte.sh
-    fi" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
+    shell: cat config/tilix/header > "{{ home }}/.temp" && cat "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"

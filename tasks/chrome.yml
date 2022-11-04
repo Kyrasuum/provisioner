@@ -7,3 +7,7 @@
 
   - name: Run Chrome
     shell: google-chrome &
+
+  - name: Kill Chrome
+    become: true
+    shell: sleep 1 && pkill chrome

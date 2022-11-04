@@ -9,7 +9,7 @@ main() {
     sudo apt-add-repository -y --update ppa:ansible/ansible
     sudo DEBIAN_FRONTEND=noninteractive apt install -y ansible git
     git -C /tmp clone https://github.com/kyrasuum/provisioner.git -v --progress 2>&1
-    cd /tmp/provisioner && ansible-playbook local.yml
+    cd /tmp/provisioner && ansible-playbook local.yml 2>&1
     rm -rf /tmp/provisioner
 }
 
