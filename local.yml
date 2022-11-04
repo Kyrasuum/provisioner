@@ -18,7 +18,7 @@
     - include_tasks: tasks/vue.yml
     - include_tasks: tasks/postgres.yml
     
-    - include_tasks: tasks/firefox.yml
+    # - include_tasks: tasks/firefox.yml
     - include_tasks: tasks/chrome.yml
     - include_tasks: tasks/cac.yml
     
