@@ -7,9 +7,9 @@
 
   - name: Install key bindings
     shell: cp config/micro/bindings.json "{{ home }}/.config/micro/"
-    
+
   - name: Setup micro plugins
-    shell: micro -plugin install filemanager jump quoter go manipulator wc yapf literatre status autoclose comment diff ftoptions linter
+    shell: micro -plugin install filemanager jump quoter go manipulator wc lsp detectindent
 
   - name: Override default filemanager
     shell:  curl https://raw.githubusercontent.com/Kyrasuum/filemanager-plugin/master/filemanager.lua > "{{ home }}/.config/micro/plug/filemanager/filemanager.lua"

@@ -16,11 +16,11 @@ git_checkout (){
 
 stot (){
     for f in $1/*
-	do 
-		if [[ -d $f ]] 
-		then 
+	do
+		if [[ -d $f ]]
+		then
 			fun "$f"
-		else 
+		else
 			echo "fixing $f"
 			perl -p -i -e 's/    /\t/g' "$f"
 		fi
@@ -28,11 +28,11 @@ stot (){
 }
 ttos (){
     for f in $1/*
-	do 
-		if [[ -d $f ]] 
-		then 
+	do
+		if [[ -d $f ]]
+		then
 			fun "$f"
-		else 
+		else
 			echo "fixing $f"
 			perl -p -i -e 's/\t/    /g' "$f"
 		fi
@@ -43,7 +43,7 @@ docker-start (){
     if [[ $# -gt 0 ]]
     then
         docker run -itd $2 --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /var/run/docker.sock:/var/run/docker.sock --device=/dev/dri:/dev/dri $1 bash
-    fi    
+    fi
 }
 
 docker-join (){
@@ -73,34 +73,46 @@ git-https-to-shh (){
       echo "   It is possible this repo is already using SSH instead of HTTPS."
       exit
     fi
-    
+
     USER=$(echo "$REPO_URL" | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p')
     if [ -z "$USER" ]; then
       echo "-- ERROR:  Could not identify User."
       exit
     fi
-    
+
     REPO=$(echo "$REPO_URL" | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p')
     if [ -z "$REPO" ]; then
       echo "-- ERROR:  Could not identify Repo."
       exit
     fi
-    
+
     NEW_URL="git@github.com:$USER/$REPO.git"
     echo "Changing repo url from "
     echo "  '$REPO_URL'"
     echo "      to "
     echo "  '$NEW_URL'"
     echo ""
-    
+
     CHANGE_CMD="git remote set-url origin $NEW_URL"
     $CHANGE_CMD
-    
+
     echo "Success"
 }
 
-# added by pipx (https://github.com/pipxproject/pipx)
-export PATH="$PATH:/home/phillip/.local/bin"
+git-commit-gum (){
+	TYPE=$(gum choose "fix" "feat" "docs" "style" "refactor" "test" "chore" "revert")
+	SCOPE=$(gum input --placeholder "scope")
+
+	# Since the scope is optional, wrap it in parentheses if it has a value.
+	test -n "$SCOPE" && SCOPE="($SCOPE)"
+
+	# Pre-populate the input with the type(scope): so that the user may change it
+	SUMMARY=$(gum input --value "$TYPE$SCOPE: " --placeholder "Summary of this change")
+	DESCRIPTION=$(gum write --placeholder "Details of this change (CTRL+D to finish)")
+
+	# Commit these changes
+	gum confirm "Commit changes?" && git commit -m "$SUMMARY" -m "$DESCRIPTION" $@
+}
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
@@ -111,6 +123,21 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+# Auto-completion
+# ---------------
+[[ $- == *i* ]] && source "/home/phil/.config/.fzf/shell/completion.bash" 2> /dev/null
+
+
+# Setup fzf
+# ---------
+if [[ ! "$PATH" == */home/phil/.config/.fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}/home/phil/.config/.fzf/bin"
+fi
+
+# Key bindings
+# ------------
+source "/home/phil/.config/.fzf/shell/key-bindings.bash"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -124,137 +151,126 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-ble-sabbrev dm='docker container kill $(docker container ps --all -q) || docker rm $(docker ps -aq)'
-alias dm='docker container kill $(docker container ps --all -q) || docker rm $(docker ps -aq)'
-ble-sabbrev dn='docker image rm $(docker images -aq) --force'
-alias dn='docker image rm $(docker images -aq) --force'
-ble-sabbrev dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
-alias dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
-
-ble-sabbrev dcu='docker-compose up '
-alias dcu='docker-compose up'
-ble-sabbrev dcub='docker-compose up --build'
-alias dcub='docker-compose up --build'
-
-ble-sabbrev sonarsc='sonar-scanner -Dsonar.login=edf0042d0b8d63db8d84c1691c0c034dfda02aeb'
-alias sonarsc='sonar-scanner -Dsonar.login=edf0042d0b8d63db8d84c1691c0c034dfda02aeb'
-ble-sabbrev dcheck='dependency-check.sh --scan . --format HTML --format JSON --enableExperimental --out reports/'
-alias dcheck='dependency-check.sh --scan . --format HTML --format JSON --enableExperimental --out reports/'
-
-xhost local:docker 2>/dev/null >/dev/null || : # allow docker to send to us
-export MICRO_TRUECOLOR=1
-shopt -s autocd #enable changing directory by typing folder name
-
-sysinfo (){
-    for i in /etc/update-motd.d/*; do if [ "$i" != "/etc/update-motd.d/98-fsck-at-reboot" ]; then $i; fi; done
-}
-sysinfo
-
-alias sshfs-aws='sshfs ec2-user@ec2-54-152-174-193.compute-1.amazonaws.com:/home/ec2-user/dev ~/dev/ec2 -o IdentityFile=~/.ssh/aws-ec2.pem'
-alias ssh-aws='ssh -i "~/.ssh/aws-ec2.pem" ec2-user@ec2-54-152-174-193.compute-1.amazonaws.com'
 
 _ble_contrib_fzf_base=~/.fzf
 _ble_contrib_fzf_git_config=key-binding:sabbrev:arpeggio
 export PATH="${PATH:+${PATH}:}~/.fzf/bin"
 
-[[ ${BLE_VERSION-} ]] && ble-attach
-[[ ${BLE_VERSION-} ]] && ble-import -d contrib/fzf-completion
-[[ ${BLE_VERSION-} ]] && ble-import -d contrib/fzf-key-bindings
-[[ ${BLE_VERSION-} ]] && ble-import -d contrib/fzf-git
-[[ ${BLE_VERSION-} ]] && ble-import contrib/prompt-git
+if [[ ${BLE_VERSION-} ]]; then
+	ble-attach
+	ble-import -d contrib/fzf-completion
+	ble-import -d contrib/fzf-key-bindings
+	ble-import -d contrib/fzf-git
+	ble-import contrib/prompt-git
 
-bleopt prompt_rps1='\q{contrib/git-name} \q{contrib/git-branch} \q{contrib/git-path}'
-bleopt prompt_rps1_final=" "
-bleopt complete_auto_wordbreaks=$' \t\n\\,;/:.'
-bleopt history_share=1
+	bleopt prompt_rps1='\q{contrib/git-name} \q{contrib/git-branch} \q{contrib/git-path}'
+	bleopt prompt_rps1_final=" "
+	bleopt complete_auto_wordbreaks=$' \t\n\\,;/:.'
+	bleopt history_share=1
 
-ble-face auto_complete='fg=8'
+	ble-face auto_complete='fg=8'
 
-ble-bind -f C-M-u       'capitalize-eword'
-ble-bind -f C-M-c       'copy-region-or copy-backward-uword'
-ble-bind -f C-y         set-mark
-ble-bind -m 'emacs' -c 'C-l' "clear -x"
-ble-bind -f up 'history-search-backward immediate-accept'
-ble-bind -f down 'history-search-forward immediate-accept'
+	ble-bind -f C-M-u       'capitalize-eword'
+	ble-bind -f C-M-c       'copy-region-or copy-backward-uword'
+	ble-bind -f C-y         set-mark
+	ble-bind -m 'emacs' -c 'C-l' "clear -x"
+	ble-bind -f up 'history-search-backward immediate-accept'
+	ble-bind -f down 'history-search-forward immediate-accept'
 
-# some git abbrevs
-ble-sabbrev g='git'
-alias g='git'
-ble-sabbrev gs='git status'
-alias gs='git status'
-ble-sabbrev ga='git add'
-alias ga='git add'
-ble-sabbrev gc='git commit'
-alias gc='git commit'
-ble-sabbrev gl='git pull'
-alias gl='git pull'
-ble-sabbrev gp='git push -u origin `git symbolic-ref HEAD --short`'
-alias gp='git push'
-ble-sabbrev gba='git branch -a'
-alias gba='git branch -a'
-ble-sabbrev grs='git restore'
-alias grs='git restore'
-ble-sabbrev gco='git checkout'
-alias gco='git checkout'
-ble-sabbrev gcl='git fetch -p && { git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
-alias gcl='git fetch -p && { git branch --merged master; git branch --merged Development; } | grep -v "^[ *]*master$\|^[ *]*Development$" | xargs git branch -D'
+	# some git abbrevs
+	ble-sabbrev g='git'
+	ble-sabbrev gs='git status'
+	ble-sabbrev ga='git add'
+	ble-sabbrev gcm='git commit -m'
+	ble-sabbrev gc='git commit'
+	ble-sabbrev gl='git pull'
+	ble-sabbrev gm='git merge --no-ff'
+	ble-sabbrev gp='git push -u origin `git symbolic-ref HEAD --short`'
+	ble-sabbrev gba='git branch -a'
+	ble-sabbrev grs='git restore'
+	ble-sabbrev gco='git checkout'
+	ble-sabbrev gcl='git fetch -p && { git branch --merged master; git branch --merged dev; } | grep -v "^[ *]*master$\|^[ *]*dev$" | xargs git branch -D'
+
+	ble-sabbrev ofe='nautilus . &'
+
+	ble-sabbrev dm='docker container kill $(docker container ps --all -q) || docker rm $(docker ps -aq)'
+	ble-sabbrev dn='docker image rm $(docker images -aq) --force'
+	ble-sabbrev dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
+	ble-sabbrev dcu='docker-compose up '
+	ble-sabbrev dcub='docker-compose up --build'
+
+	bleopt complete_auto_history=
+	# bleopt complete_auto_complete=
+	bleopt complete_menu_complete=
+	bleopt complete_menu_filter=
+
+	ble-bind -m 'emacs' -f 'M-S-left' '@marked beginning-of-line'
+	ble-bind -m 'emacs' -f 'M-S-right' '@marked end-of-line'
+
+	ble-bind -m 'emacs' -f 'S-left' '@marked backward-char'
+	ble-bind -m 'emacs' -f 'S-right' '@marked forward-char'
+
+	ble-bind -m 'emacs' -f 'C-z' 'emacs/undo'
+	ble-bind -m 'emacs' -f 'C-M-z' 'emacs/redo'
+
+	ble-bind -m 'emacs' -f 'M-c' 'set-mark'
+	ble-bind -m 'emacs' -f 'C-c' 'copy-region-or discard-line'
+
+	ble-bind -m 'emacs' -f 'M-,' 'kill-backward-cword'
+	ble-bind -m 'emacs' -f 'M-.' 'kill-forward-cword'
+
+	function ble/widget/.copy-range {
+	  local p0 p1 len
+	  ble/widget/.process-range-argument "${@:1:2}" || return 1
+
+	  # copy
+	  echo -n "${_ble_edit_str:p0:len}" | xclip -selection "clipboard"
+	}
+
+	bind 'set completion-ignore-case on'
+	bind 'set skip-completed-text off'
+	bind 'set show-all-if-unmodified on'
+	bind 'set show-all-if-ambiguous on'
+	bind 'set menu-complete-display-prefix on'
+	bind 'TAB:menu-complete'
+	bind 'set colored-completion-prefix on'
+
+	bind -x '"\C-l": clear; ls'
+
+	bind '"\C-a": "\e[1;3D\C-y\e[1;3C"'
+
+	bind '"\e[1;3D": beginning-of-line'
+	bind '"\e[1;3C": end-of-line'
+fi
+
+alias dm='docker container kill $(docker container ps --all -q) || docker rm $(docker ps -aq)'
+alias dn='docker image rm $(docker images -aq) --force'
+alias dfl='docker volume rm `docker volume ls | tail -n +2 | cut -f 2- -d " " | xargs`'
+
+alias dcu='docker-compose up'
+alias dcub='docker-compose up --build'
+
+# alias sonarsc='sonar-scanner -Dsonar.login='
+# alias dcheck='dependency-check.sh --scan . --format HTML --format JSON --enableExperimental --out reports/'
+
 # fzf-git has gf gb gt gh gr
-
-ble-sabbrev ofe='nautilus . &'
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gl='git pull'
+alias gm='git merge --no-ff'
+alias gp='git push'
+alias gba='git branch -a'
+alias grs='git restore'
+alias gco='git checkout'
+alias gcl='git fetch -p && { git branch --merged master; git branch --merged dev; } | grep -v "^[ *]*master$\|^[ *]*dev$" | xargs git branch -D'
 alias ofe='nautilus . &'
 
 # some ls abbrevs
 alias ll='ls -lisAH'
 alias la='ls -A'
 alias l='ls -CF'
-
-bleopt complete_auto_history=
-# bleopt complete_auto_complete=
-bleopt complete_menu_complete=
-bleopt complete_menu_filter=
-
-bind 'set completion-ignore-case on'
-bind 'set skip-completed-text off'
-bind 'set show-all-if-unmodified on'
-bind 'set show-all-if-ambiguous on'
-bind 'set menu-complete-display-prefix on'
-bind 'TAB:menu-complete'
-bind 'set colored-completion-prefix on'
-
-bind -x '"\C-l": clear; ls'
-
-bind '"\C-a": "\e[1;3D\C-y\e[1;3C"'
-
-bind '"\e[1;3D": beginning-of-line'
-bind '"\e[1;3C": end-of-line'
-
-ble-bind -m 'emacs' -f 'M-S-left' '@marked beginning-of-line'
-ble-bind -m 'emacs' -f 'M-S-right' '@marked end-of-line'
-
-ble-bind -m 'emacs' -f 'S-left' '@marked backward-char'
-ble-bind -m 'emacs' -f 'S-right' '@marked forward-char'
-
-ble-bind -m 'emacs' -f 'C-z' 'emacs/undo'
-ble-bind -m 'emacs' -f 'C-M-z' 'emacs/redo'
-
-ble-bind -m 'emacs' -f 'M-c' 'set-mark'
-ble-bind -m 'emacs' -f 'C-c' 'copy-region-or discard-line'
-
-ble-bind -m 'emacs' -f 'M-,' 'kill-backward-cword'
-ble-bind -m 'emacs' -f 'M-.' 'kill-forward-cword'
-
-function ble/widget/.copy-range {
-  local p0 p1 len
-  ble/widget/.process-range-argument "${@:1:2}" || return 1
-
-  # copy
-  echo -n "${_ble_edit_str:p0:len}" | xclip -selection "clipboard"
-}
 
 export XDG_DATA_HOME="$HOME"/.local/share
 export XDG_CONFIG_HOME="$HOME"/.config
@@ -274,70 +290,48 @@ export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
 
-alias ssh-diagon='ssh defender@diagon.defenders.dev -p 6666'
-alias sshfs-diagon='sshfs defender@diagon.defenders.dev:cerebro ~/dev/cerebro-diagon -p 6666'
-
 # NNN file browser
 export PATH="$PATH:${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
 
 alias sz='source ~/.bashrc'
 
-# Project setup
-function cerebro-frontend {
-    cd "$HOME/dev/cerebro/frontend" || return
-    echo "
-    rm temp
-    . ~/.bashrc
-    micro src/store/index.ts
-    " > temp
-    tilix -a session-add-right -e "bash -c 'bash --init-file temp'"
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "/home/phil/.local/share/cargo/env"
 
-    echo "
-    rm temp
-    . ~/.bashrc
-    cd '..' || return
-    make build
-    " > temp
-    tilix -a session-add-down -e "bash -c 'bash --init-file temp'"
+# kdesrc-build #################################################################
 
-    npm run dev
+## Add kdesrc-build to PATH
+export PATH="/home/phil/kde/src/kdesrc-build:$PATH"
+
+## Autocomplete for kdesrc-run
+function _comp_kdesrc_run
+{
+  local cur
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+
+  # Complete only the first argument
+  if [[ $COMP_CWORD != 1 ]]; then
+    return 0
+  fi
+
+  # Retrieve build modules through kdesrc-run
+  # If the exit status indicates failure, set the wordlist empty to avoid
+  # unrelated messages.
+  local modules
+  if ! modules=$(kdesrc-run --list-installed);
+  then
+      modules=""
+  fi
+
+  # Return completions that match the current word
+  COMPREPLY=( $(compgen -W "${modules}" -- "$cur") )
+
+  return 0
 }
-function cerebro-api {
-    cd "$HOME/dev/cerebro/api" || return
-    go build cmd/main.go
 
-    echo "
-    rm temp
-    . ~/.bashrc
-    micro internal/dbms/seed/seed.go
-    " > temp
-    tilix -a session-add-right -e "bash -c 'bash --init-file temp'"
-    tilix -a session-switch-to-terminal-2
-
-    echo "
-    rm temp
-    . ~/.bashrc
-    until ./main ./api --conn-chk > /dev/null
-    do
-        sleep 1;
-    done
-    ./main --debug
-    " > temp
-    tilix -a session-add-down -e "bash -c 'bash --init-file temp'"
-    tilix -a session-switch-to-terminal-1
-
-
-    echo "
-    rm temp
-    . ~/.bashrc
-    cd '..' || return
-    make debug-db
-    " > temp
-    tilix -a session-add-down -e "bash -c 'bash --init-file temp'"
-
-    until ./main --conn-chk > /dev/null
-    do
-        sleep 1;
-    done
-    sudo -u postgres psql -h localhost
-}
+## Register autocomplete function
+complete -o nospace -F _comp_kdesrc_run kdesrc-run
+################################################################################
