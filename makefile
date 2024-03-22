@@ -8,3 +8,5 @@ build:
 
 clean:
 	@docker rmi test-env --force || :
+	@docker container prune -f
+	@docker system prune -f
