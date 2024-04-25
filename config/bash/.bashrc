@@ -272,6 +272,8 @@ alias ll='ls -lisAH'
 alias la='ls -A'
 alias l='ls -CF'
 
+shopt -s globstar
+
 export XDG_DATA_HOME="$HOME"/.local/share
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_STATE_HOME="$HOME"/.local/state

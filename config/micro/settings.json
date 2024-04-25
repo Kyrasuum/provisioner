@@ -1,0 +1,14 @@
+{
+    "autoretab": true,
+    "colorscheme": "sublime",
+    "filemanager.openonstart": true,
+    "hlsearch": true,
+    "hltaberrors": true,
+    "hltrailingws": true,
+    "mkparents": true,
+    "paste": true,
+    "rmtrailingws": true,
+    "tabmovement": true,
+    "tabstospaces": true,
+    "xterm": true
+}
