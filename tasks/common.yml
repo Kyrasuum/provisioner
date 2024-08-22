@@ -13,12 +13,9 @@
         - gnome-shell-extensions
         - chrome-gnome-shell
         - fzf
-        - htop
-        - nasm
         - make
         - openssh-client
         - wget
-        - wireshark
         - xclip
 
   - name: Update Apt
@@ -27,3 +24,6 @@
 
   - name: Setup config directory
     shell: mkdir -p "{{ home }}/.config"
+
+  - name: Add config settings to bashrc
+    shell: cat config/bash/config.txt > "{{ home }}/.bashrc"

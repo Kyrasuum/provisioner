@@ -1,0 +1,55 @@
+filetype: haxe
+
+detect:
+    filename: "\\.hx$"
+
+rules:
+    # Conditionals and control flow
+    - preproc: "\\b(abstract|package|using|override|overload|operator|macro|import)\\b"
+    - special: "\\b(break|case|continue|default|return)\\b"
+    - statement: "\\b(interface|class|namespace|function|dynamic|var|typedef|implements|extends|enum)\\b"
+    - statement: "\\b(try|throw|catch|this|for|if|while|do|else|case|default|switch|in|new|cast)\\b"
+    - type.keyword: "\\b(extern|final|untyped|static|public|protected|private|inline)\\b"
+
+      # Types
+    - identifier: "\\b[A-Z_][0-9A-Z_]+\\b"
+    - type: "\\b[A-Z][0-9a-z_]+\\b"
+
+      # Operator Color
+    - symbol.operator: "[-+*/%=<>.:;,~&|^!?]|\\b"
+      # Parenthetical Color
+    - symbol.brackets: "[(){}]|\\[|\\]"
+      # Integer Literals
+    - constant.number: "(\\b([1-9][0-9']*|0[0-7']*|0[Xx][0-9a-fA-F']+|0[Bb][01]+)([Uu]?[Ll][Ll]?|[Ll][Ll]?[Uu]?)?\\b)"
+      # Decimal Floating-point Literals
+    - constant.number: "(\\b(([0-9']*[.][0-9']+|[0-9']+[.][0-9']*)([Ee][+-]?[0-9']+)?|[0-9']+[Ee][+-]?[0-9']+)[FfLl]?\\b)"
+      # Hexadecimal Floating-point Literals
+    - constant.number: "(\\b0[Xx]([0-9a-zA-Z']*[.][0-9a-zA-Z']+|[0-9a-zA-Z']+[.][0-9a-zA-Z']*)[Pp][+-]?[0-9']+[FfLl]?\\b)"
+    - constant.bool: "(\\b(true|false|null)\\b)"
+
+    - constant.string:
+        start: "\""
+        end: "\""
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\([\"'abfnrtv\\\\]|[0-3]?[0-7]{1,2}|x[0-9A-Fa-f]{1,2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})"
+
+    - constant.string:
+        start: "'"
+        end: "'"
+        skip: "\\\\."
+        rules:
+            - error: "..+"
+            - constant.specialChar: "\\\\([\"'abfnrtv\\\\]|[0-3]?[0-7]{1,2}|x[0-9A-Fa-f]{1,2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})"
+
+    - comment:
+        start: "//"
+        end: "$"
+        rules:
+            - todo: "(TODO|XXX|FIXME):?"
+
+    - comment:
+        start: "/\\*"
+        end: "\\*/"
+        rules:
+            - todo: "(TODO|XXX|FIXME):?"

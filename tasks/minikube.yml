@@ -1,0 +1,18 @@
+  - name: Install prereqs
+    become: true
+    apt:
+        pkg:
+        - apt-transport-https
+
+  - name: Install minikube
+    become: true
+    shell: curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+  - name: Start minikube
+    shell: minikube start --driver=docker
+
+  - name: Add helm addon
+    shell: minikube addons enable helm-tiller
+
+  - name: Add docker context
+    shell: docker context create minikube --description "Minikube" --docker "host=tcp://192.168.49.2:2376,ca=/home/{{ home }}/.minikube/certs/ca.pem,cert=/home/{{ home }}/.minikube/certs/cert.pem,key=/home/{{ home }}/.minikube/certs/key.pem"

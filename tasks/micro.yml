@@ -17,6 +17,9 @@
   - name: Install colorscheme
     shell: mkdir -p "{{ home }}/.config/micro/colorschemes" && cp config/micro/sublime.micro "{{ home }}/.config/micro/colorschemes/"
 
+  - name: Install syntax
+    shell: mkdir -p "{{ home }}/.config/micro/syntax" && cp config/micro/glsl.yaml "{{ home }}/.config/micro/syntax/" && cp config/micro/haxe.yaml "{{ home }}/.config/micro/syntax/" && cp config/micro/vue.yaml "{{ home }}/.config/micro/syntax/"
+
   - name: Set default git editor
     become: true
     shell: git config --global core.editor micro

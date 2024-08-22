@@ -1,3 +1,0 @@
-  - name: Install Vue.js
-    become: true
-    shell: npm install -g @vue/cli

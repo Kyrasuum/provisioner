@@ -1,0 +1,34 @@
+  - name: Install prereqs
+    become: true
+    apt:
+        pkg:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg
+
+  - name: Download keyring
+    become: true
+    shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+  - name: keyring permissions
+    become: true
+    shell: chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+  - name: Add apt source
+    become: true
+    shell: echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+  - name: source permissions
+    become: true
+    shell: chmod 644 /etc/apt/sources.list.d/kubernetes.list
+
+  - name: Update apt
+    become: true
+    shell: apt update
+
+  - name: Install kubectl
+    become: true
+    apt:
+        pkg:
+        - kubectl

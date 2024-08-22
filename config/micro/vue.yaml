@@ -1,0 +1,92 @@
+filetype: vue
+
+detect:
+    filename: "\\.vue$"
+
+rules:
+    - default:
+        start: "^<template.*?>"
+        end: "^</template.*?>"
+        limit-group: symbol.tag
+        rules:
+            - tag:
+                start: "<"
+                end: "(?:\\b|\"|/)>"
+                limit-group: symbol.tag
+                rules:
+                    - css:
+                        start: "\\b[a-zA-Z0-9-]*style=\""
+                        end: "\""
+                        limit-group: symbol.tag
+                        rules:
+                            - include: "css"
+
+                    # Match double-quote strings
+                    - constant.string:
+                        start: "\""
+                        end: "\""
+                        skip: "\\\\."
+                        rules:
+                          - constant.specialChar: "\\\\."
+                          - constant.string.url: "((ftp(s)?|http(s)?|git|chrome)://[^\\s]+)"
+
+                    # Match single-quote strings
+                    - constant.string:
+                        start: "'"
+                        end: "'"
+                        skip: "\\\\."
+                        rules:
+                          - constant.specialChar: "\\\\."
+                          - constant.string.url: "((ftp(s)?|http(s)?|git|chrome)://[^\\s]+)"
+
+                    - error: "#[a-zA-Z0-9]*"
+                    - preproc: "(?i)<[/]?(script|style)( .*)*?>"
+                    - special: "&[^;[[:space:]]]*;"
+
+                    - symbol.tag: "\\A(?i)[0-9a-z/-]*\\b"
+                    - identifier: "[@:]?[0-9a-zA-Z-]*="
+
+                    - constant.number: "(?i)#[0-9A-F]{6,6}"
+                    - constant.string.url: "(ftp(s)?|http(s)?|git|chrome)://[^ 	]+"
+                    - symbol: "[:=@]"
+
+            # This weird empty comment thing is technically valid
+            - comment: "<!>"
+
+            - comment: "<!--.+?-->"
+            - comment.block:
+                start: "<!\\-\\-"
+                end: "\\-\\->"
+                rules:
+                  - todo: "(FIXME|NOTE|TODO):?"
+                  # While technically not a "true" error, these are recommended to not be used inside a comment
+                  - error: "(\\-\\-|>)"
+
+            - variable:
+                start: "{{"
+                end: "}}"
+                rules:
+                    - identifier: "[a-zA-Z0-9\\.]*"
+
+    - default:
+        start: "<script[(setup)(lang=(\"ts\"|'ts')) ]*>"
+        end: "</script>"
+        rules:
+            - include: "typescript"
+
+    - default:
+        start: "<script.*?>"
+        end: "</script.*?>"
+        limit-group: symbol.tag
+        rules:
+            - include: "javascript"
+
+    - default:
+        start: "<style.*?>"
+        end: "</style.*?>"
+        limit-group: symbol.tag
+        rules:
+            - include: "css"
+
+
+

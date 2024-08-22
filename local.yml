@@ -3,19 +3,21 @@
 - name: Standardizing development environment
   vars:
     home: "{{ lookup('env', 'HOME') }}"
+    user: "{{ lookup('env', 'USER') }}"
   hosts: localhost
   pre_tasks:
     - include_tasks: tasks/common.yml
+    - include_tasks: tasks/libetc.yml
   tasks:
     - include_tasks: tasks/python.yml
     - include_tasks: tasks/c.yml
     - include_tasks: tasks/go.yml
+    - include_tasks: tasks/node.yml
 
     - include_tasks: tasks/docker.yml
-
-    - include_tasks: tasks/node.yml
-    - include_tasks: tasks/vue.yml
-    - include_tasks: tasks/postgres.yml
+    - include_tasks: tasks/kubectl.yml
+    - include_tasks: tasks/helm.yml
+    - include_tasks: tasks/minikube.yml
 
     - include_tasks: tasks/firefox.yml
     - include_tasks: tasks/chrome.yml

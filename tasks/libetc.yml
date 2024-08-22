@@ -1,0 +1,12 @@
+  - name: Download libetc
+    shell: wget https://ordiluc.net/fs/libetc/libetc-0.4.tar.gz
+
+  - name: Extract libetc
+    shell: tar -xvzf libetc-0.4.tar.gz
+
+  - name: Install libetc
+    become: true
+    shell: cd libetc-0.4 && make && make install
+
+  - name: Cleanup
+    shell: rm -rf libetc-0.4.tar.gz libetc-0.4

@@ -5,30 +5,8 @@
         - nodejs
         - npm
 
-  - name: Install Yarn
-    become: true
-    npm:
-        name: yarn
-        global: yes
-
-  - name: Install eslint
-    become: true
-    npm:
-        name: eslint
-        global: yes
-
   - name: Install Typescript
     become: true
     npm:
         name: typescript
         global: yes
-
-  - name: Install n
-    become: true
-    npm:
-        name: n
-        global: yes
-
-  - name: Set npm version
-    become: true
-    shell: n 14
