@@ -22,7 +22,7 @@
     become: true
     apt:
         pkg:
-        - firefox
+        - firefox-nightly
 
   - name: Run Firefox
     shell: firefox --headless &
