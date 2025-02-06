@@ -30,19 +30,23 @@
     
   - name: Setup xdg permissions
     become: true
-    shell: chmod -R a+rwx "{{XDG_HOME}}"
+    shell: chmod -R a+rw "{{XDG_HOME}}"
     
-  - name: Replace skel
+  - name: Setup xdg owner
     become: true
-    shell: cat config/bash/.bashrc > "/etc/skel/.bashrc"
-
+    shell: chown -R "{{current_user}}" "{{XDG_HOME}}"
+    
+  - name: Add include to bashrc
+    become: true
+    shell: echo "source /etc/skel/.skelrc" > "/etc/skel/.bashrc"
+    
   - name: Add shebang to skel
     become: true
-    shell: echo "#!/usr/bin/env bash" | cat - "/etc/skel/.bashrc" > "/etc/.temp" && mv "/etc/.temp" "/etc/skel/.bashrc"
+    shell: echo "#!/usr/bin/env bash" > "/etc/skel/.skelrc"
 
   - name: Add xdg settings to skel
     become: true
-    shell: echo "export {{item.key}}={{item.value}}" >> "/etc/skel/.bashrc"
+    shell: echo "export {{item.key}}={{item.value}}" >> "/etc/skel/.skelrc"
     with_items:
       - { key: "XDG_HOME", value: "{{XDG_HOME}}" }
       - { key: "XDG_BIN_HOME", value: "{{XDG_BIN_HOME}}" }
@@ -50,10 +54,18 @@
       - { key: "XDG_STATE_HOME", value: "{{XDG_STATE_HOME}}" }
       - { key: "XDG_CACHE_HOME", value: "{{XDG_CACHE_HOME}}" }
       - { key: "XDG_CONFIG_HOME", value: "{{XDG_CONFIG_HOME}}" }
+
+  - name: Add ble.sh to skel
+    become: true
+    shell: echo "[[ \$- == *i* ]] && source $XDG_CONFIG_HOME/ble.sh/out/ble.sh --noattach" >> "/etc/skel/.skelrc"
     
+  - name: Add bashrc to skel
+    become: true
+    shell: cat config/bash/.bashrc >> "/etc/skel/.skelrc"
+
   - name: Add config settings to skel
     become: true
-    shell: cat config/bash/config.txt >> "/etc/skel/.bashrc"
+    shell: cat config/bash/config.txt >> "/etc/skel/.skelrc"
     
   - name: Setup config directory
     shell: mkdir -p "{{ XDG_CONFIG_HOME }}/.config"

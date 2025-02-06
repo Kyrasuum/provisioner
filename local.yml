@@ -6,7 +6,7 @@
     current_user: "{{ lookup('env', 'USER') }}"
     user: "{{current_user}}"
     password: "{{user}}"
-    XDG_HOME: /xdg
+    XDG_HOME: /home/xdg
     XDG_BIN_HOME: "{{ XDG_HOME }}/.local/bin"
     XDG_DATA_HOME: "{{ XDG_HOME }}/.local/share"
     XDG_STATE_HOME: "{{ XDG_HOME }}/.local/state"
@@ -17,6 +17,7 @@
     - include_tasks: tasks/common.yml
     - include_tasks: tasks/libetc.yml
     - include_tasks: tasks/net.yml
+    - include_tasks: tasks/user.yml
   tasks:
     - include_tasks: tasks/archive.yml
     - include_tasks: tasks/vm.yml
@@ -35,8 +36,6 @@
     
     # For use with DoD cac
     #- include_tasks: tasks/cac.yml
-    
-    - include_tasks: tasks/user.yml
 
     - include_tasks: tasks/docker.yml
     - include_tasks: tasks/kubectl.yml
@@ -44,3 +43,14 @@
     #- include_tasks: tasks/minikube.yml
 
     - include_tasks: tasks/desktop.yml
+    - name: Install CLI tool to manage GNOME extensions
+      become: true
+      shell: pip install gnome-extensions-cli --upgrade
+    
+    - name: Install and enable GNOME extensions
+      become: true
+      shell: gext install "{{item}}" && gext enable "{{item}}"
+      loop:
+        - arcmennu@arcmenu.com
+        - dash-to-panel@jderose9.github.com
+        - tweaks-system-menu@extensions.gnome-shell.fifi.org

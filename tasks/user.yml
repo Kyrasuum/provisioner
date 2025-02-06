@@ -8,5 +8,5 @@
 
   - name: Setup User
     become: true
-    shell: useradd -p {{password}} -m -G sudo {{user}}
+    shell: useradd -p {{password}} -m -s /bin/bash -G sudo {{user}}
     when: current_user != user and user not in existing_users
