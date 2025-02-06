@@ -1,0 +1,15 @@
+  - name: Install net Utilities
+    become: true
+    apt:
+        pkg:
+        - apt-transport-https
+        - curl
+        - openssh-client
+        - wget
+        - libreadline-dev
+        - openssl
+        - netcat
+        - tshark
+        - tcpdump
+        state: latest
+        update_cache: true

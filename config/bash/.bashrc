@@ -4,18 +4,18 @@ export TERM=xterm-256color
 export TERMINFO=/usr/share/terminfo
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+if [ -d "$XDG_HOME/bin" ] ; then
+    PATH="$XDG_HOME/bin:$PATH"
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
+if [ -d "$XDG_BIN_HOME" ] ; then
+    PATH="$XDG_BIN_HOME:$PATH"
 fi
 
 # Key bindings
 # ------------
-source "/home/phil/.config/.fzf/shell/key-bindings.bash"
+source "$XDG_CONFIG_HOME/.fzf/shell/key-bindings.bash"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -59,6 +59,7 @@ if [[ ${BLE_VERSION-} ]]; then
 	ble-sabbrev gl='git pull'
 	ble-sabbrev gm='git merge --no-ff'
 	ble-sabbrev gp='git push'
+	ble-sabbrev gb='git branch'
 	ble-sabbrev gpf='git push --force'
 	ble-sabbrev gpo='git push -u origin `git symbolic-ref HEAD --short`'
 	ble-sabbrev gbd='git branch -D'
@@ -129,6 +130,7 @@ alias gc='git commit'
 alias gl='git pull'
 alias gm='git merge --no-ff'
 alias gp='git push'
+alias gb='git branch'
 alias gpf='git push --force'
 alias gpo='git push -u origin `git symbolic-ref HEAD --short`'
 alias gbd='git branch -D'
@@ -142,43 +144,9 @@ alias ll='ls -lisAH'
 alias la='ls -A'
 alias l='ls -CF'
 
-shopt -s globstar
-
-# kdesrc-build #################################################################
-## Add kdesrc-build to PATH
-export PATH="/home/phil/kde/src/kdesrc-build:$PATH"
-
-## Autocomplete for kdesrc-run
-function _comp_kdesrc_run
-{
-  local cur
-  COMPREPLY=()
-  cur="${COMP_WORDS[COMP_CWORD]}"
-
-  # Complete only the first argument
-  if [[ $COMP_CWORD != 1 ]]; then
-    return 0
-  fi
-
-  # Retrieve build modules through kdesrc-run
-  # If the exit status indicates failure, set the wordlist empty to avoid
-  # unrelated messages.
-  local modules
-  if ! modules=$(kdesrc-run --list-installed);
-  then
-      modules=""
-  fi
-
-  # Return completions that match the current word
-  COMPREPLY=( $(compgen -W "${modules}" -- "$cur") )
-
-  return 0
-}
-
-## Register autocomplete function
-complete -o nospace -F _comp_kdesrc_run kdesrc-run
 ################################################################################
-
+# Helper functions
+################################################################################
 docker-start (){
     if [[ $# -gt 0 ]]
     then
@@ -232,14 +200,16 @@ git-https-to-shh (){
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/home/phil/.config/.fzf/shell/completion.bash" 2> /dev/null
+[[ $- == *i* ]] && source "$XDG_CONFIG_HOME/.fzf/shell/completion.bash" 2> /dev/null
+shopt -s globstar
 
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */home/phil/.config/.fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/home/phil/.config/.fzf/bin"
+if [[ ! "$PATH" == *$XDG_CONFIG_HOME/.fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}$XDG_CONFIG_HOME/.fzf/bin"
 fi
-
-_ble_contrib_fzf_base=~/.fzf
+if [[ ! "$PATH" == *$XDG_HOME/.fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}$XDG_HOME/.fzf/bin"
+fi
+_ble_contrib_fzf_base=$XDG_HOME/.fzf
 _ble_contrib_fzf_git_config=key-binding:sabbrev:arpeggio
-export PATH="${PATH:+${PATH}:}~/.fzf/bin"

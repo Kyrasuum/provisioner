@@ -3,26 +3,36 @@
     apt:
         pkg:
         - gawk
-        - lm-sensors
-        - landscape-common
+        - fzf
 
+  - name: Check if fzf exists
+    stat:
+      path: "{{ XDG_CONFIG_HOME }}/.fzf"
+    register: fzf_exists
+    
   - name: Clone fzf
-    shell: git clone --depth 1 https://github.com/junegunn/fzf.git "{{ home }}/.config/.fzf"
+    become: true
+    shell: git clone --depth 1 https://github.com/junegunn/fzf.git "{{ XDG_CONFIG_HOME }}/.fzf"
+    when: not fzf_exists.stat.exists
 
   - name: Install fzf
-    shell: "{{ home }}/.config/.fzf/install"
+    become: true
+    shell: "{{ XDG_CONFIG_HOME }}/.fzf/install"
 
+  - name: Check if ble.sh exists
+    stat:
+      path: "{{ XDG_CONFIG_HOME }}/ble.sh"
+    register: blesh_exists
+    
   - name: Clone ble.sh
-    shell: git clone --recursive https://github.com/akinomyoga/ble.sh.git "{{ home }}/.config/ble.sh"
+    become: true
+    shell: git clone --recursive https://github.com/akinomyoga/ble.sh.git "{{ XDG_CONFIG_HOME }}/ble.sh"
+    when: not blesh_exists.stat.exists
 
   - name: Install ble.sh
-    shell: make -C "{{ home }}/.config/ble.sh" install DESTDIR="{{ home }}/.config/ble.sh" PREFIX=/usr/local
+    become: true
+    shell: make -C "{{ XDG_CONFIG_HOME }}/ble.sh" install DESTDIR="{{ XDG_CONFIG_HOME }}/ble.sh" PREFIX=/usr/local
 
-  - name: Append to bashrc
-    shell: cat config/bash/.bashrc > "{{ home }}/.bashrc"
-
-  - name: Add ble.sh to bashrc
-    shell: echo "[[ \$- == *i* ]] && source ~/.config/ble.sh/out/ble.sh --noattach" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
-
-  - name: Add shebang to bashrc
-    shell: echo "#!/usr/bin/env bash" | cat - "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"
+  - name: Add ble.sh to skel
+    become: true
+    shell: echo "[[ \$- == *i* ]] && source {{ XDG_CONFIG_HOME }}/ble.sh/out/ble.sh --noattach" | cat - "/etc/skel/.bashrc" > "/etc/.temp" && mv "/etc/.temp" "/etc/skel/.bashrc"

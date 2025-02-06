@@ -4,26 +4,56 @@
         pkg:
         - apt-utils
         - apt-file
+        - make
+        - cmake
+        - git
         - build-essential
         - bash-completion
         - ca-certificates
-        - cmake
         - command-not-found
-        - curl
+        - gnome-shell
         - gnome-shell-extensions
-        - chrome-gnome-shell
-        - fzf
-        - make
-        - openssh-client
-        - wget
         - xclip
+        - tree
+        - htop
+        - iotop
+        - gdm3
+        - redis-tools
+        - lm-sensors
+        - landscape-common
+        state: latest
+        update_cache: true
 
-  - name: Update Apt
+  - name: Create xdg home
     become: true
-    shell: apt update
+    shell: mkdir -p "{{XDG_HOME}}"
+    
+  - name: Setup xdg permissions
+    become: true
+    shell: chmod -R a+rwx "{{XDG_HOME}}"
+    
+  - name: Replace skel
+    become: true
+    shell: cat config/bash/.bashrc > "/etc/skel/.bashrc"
 
+  - name: Add shebang to skel
+    become: true
+    shell: echo "#!/usr/bin/env bash" | cat - "/etc/skel/.bashrc" > "/etc/.temp" && mv "/etc/.temp" "/etc/skel/.bashrc"
+
+  - name: Add xdg settings to skel
+    become: true
+    shell: echo "export {{item.key}}={{item.value}}" >> "/etc/skel/.bashrc"
+    with_items:
+      - { key: "XDG_HOME", value: "{{XDG_HOME}}" }
+      - { key: "XDG_BIN_HOME", value: "{{XDG_BIN_HOME}}" }
+      - { key: "XDG_DATA_HOME", value: "{{XDG_DATA_HOME}}" }
+      - { key: "XDG_STATE_HOME", value: "{{XDG_STATE_HOME}}" }
+      - { key: "XDG_CACHE_HOME", value: "{{XDG_CACHE_HOME}}" }
+      - { key: "XDG_CONFIG_HOME", value: "{{XDG_CONFIG_HOME}}" }
+    
+  - name: Add config settings to skel
+    become: true
+    shell: cat config/bash/config.txt >> "/etc/skel/.bashrc"
+    
   - name: Setup config directory
-    shell: mkdir -p "{{ home }}/.config"
-
-  - name: Add config settings to bashrc
-    shell: cat config/bash/config.txt > "{{ home }}/.bashrc"
+    shell: mkdir -p "{{ XDG_CONFIG_HOME }}/.config"

@@ -1,10 +1,27 @@
-  - name: Download Chrome
-    shell: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O "/tmp/google-chrome-stable_current_amd64.deb"
-
-  - name: Install Chrome
+  - name: Add google repo
     become: true
-    shell: apt install -y --fix-broken "/tmp/google-chrome-stable_current_amd64.deb"
+    deb822_repository:
+      name: google
+      types: deb
+      uris: http://dl.google.com/linux/chrome/deb
+      architectures: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+      suites: stable
+      components: main
+      signed_by: https://dl.google.com/linux/linux_signing_key.pub
+      state: present
+      enabled: true
 
+  - name: Update apt
+    become: true
+    shell: apt update
+
+  - name: Install chrome
+    become: true
+    apt:
+        pkg:
+        - chrome-gnome-shell
+        - google-chrome-stable
+        
   - name: Run Chrome
     shell: google-chrome &
 

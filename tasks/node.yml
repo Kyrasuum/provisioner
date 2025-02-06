@@ -1,4 +1,5 @@
 - name: Install nodejs and npm
+  become: true
   apt:
     name:
       - nodejs
@@ -6,6 +7,16 @@
     state: present
     update_cache: yes
 
+- name: Setup npm prefix
+  shell: npm config set prefix "{{ XDG_BIN_HOME }}/.npm-global"
+
+- name: Setup npm path
+  shell: export PATH="{{ XDG_BIN_HOME }}/.npm-global/bin:$PATH"
+
+- name: Setup npm path for skel
+  become: true
+  shell: echo "export PATH={{ XDG_BIN_HOME }}/.npm-global/bin:$PATH" >> /etc/skel/.bashrc
+  
 - name: Install global npm packages
   npm:
     name: "{{ item }}"
@@ -13,6 +24,8 @@
     state: latest
     unsafe_perm: yes
   loop:
+    - yaml-lint
+    - jsonlint
     - yarn
     - eslint
     - typescript

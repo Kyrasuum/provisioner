@@ -3,26 +3,44 @@
 - name: Standardizing development environment
   vars:
     home: "{{ lookup('env', 'HOME') }}"
-    user: "{{ lookup('env', 'USER') }}"
-  hosts: localhost
+    current_user: "{{ lookup('env', 'USER') }}"
+    user: "{{current_user}}"
+    password: "{{user}}"
+    XDG_HOME: /xdg
+    XDG_BIN_HOME: "{{ XDG_HOME }}/.local/bin"
+    XDG_DATA_HOME: "{{ XDG_HOME }}/.local/share"
+    XDG_STATE_HOME: "{{ XDG_HOME }}/.local/state"
+    XDG_CACHE_HOME: "{{ XDG_HOME }}/.cache"
+    XDG_CONFIG_HOME: "{{ XDG_HOME }}/.config"
+  hosts: localhost, all
   pre_tasks:
     - include_tasks: tasks/common.yml
     - include_tasks: tasks/libetc.yml
+    - include_tasks: tasks/net.yml
   tasks:
+    - include_tasks: tasks/archive.yml
+    - include_tasks: tasks/vm.yml
+    
     - include_tasks: tasks/python.yml
     - include_tasks: tasks/c.yml
     - include_tasks: tasks/go.yml
     - include_tasks: tasks/node.yml
 
-    - include_tasks: tasks/docker.yml
-    - include_tasks: tasks/kubectl.yml
-    - include_tasks: tasks/helm.yml
-    - include_tasks: tasks/minikube.yml
-
-    - include_tasks: tasks/firefox.yml
-    - include_tasks: tasks/chrome.yml
-    #- include_tasks: tasks/cac.yml
-
     - include_tasks: tasks/tilix.yml
     - include_tasks: tasks/ble.sh.yml
     - include_tasks: tasks/micro.yml
+
+    - include_tasks: tasks/firefox.yml
+    - include_tasks: tasks/chrome.yml
+    
+    # For use with DoD cac
+    #- include_tasks: tasks/cac.yml
+    
+    - include_tasks: tasks/user.yml
+
+    - include_tasks: tasks/docker.yml
+    - include_tasks: tasks/kubectl.yml
+    - include_tasks: tasks/helm.yml
+    #- include_tasks: tasks/minikube.yml
+
+    - include_tasks: tasks/desktop.yml

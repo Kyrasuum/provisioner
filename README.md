@@ -1,6 +1,6 @@
 # Provisioner
 This repo contains an Ansible provisioner to setup my personal development environment.
-Since I typically use Ubuntu or PopOS, this is designed for Debian-based distributions.
+Since I typically use Ubuntu, this is designed for Debian-based distributions.
 
 ## Running
 To run the provisioner, execute one of the following commands:

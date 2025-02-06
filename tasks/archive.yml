@@ -1,0 +1,12 @@
+  - name: Install archive packages
+    become: true
+    apt:
+        pkg:
+        - gzip
+        - tar
+        - zip
+        - unzip
+        - p7zip-full
+        - p7zip-rar
+        state: latest
+        update_cache: true

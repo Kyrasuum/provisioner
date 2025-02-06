@@ -8,6 +8,3 @@
 
   - name: Set tilix config
     shell: dconf load /com/gexperts/Tilix/ < config/tilix/config
-
-  - name: Add tilix to bashrc
-    shell: cat config/tilix/header > "{{ home }}/.temp" && cat "{{ home }}/.bashrc" > "{{ home }}/.temp" && mv "{{ home }}/.temp" "{{ home }}/.bashrc"

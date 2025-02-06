@@ -3,22 +3,27 @@
     shell: curl https://getmic.ro | bash && mv ./micro /usr/bin/
 
   - name: Setup micro directory
-    shell: mkdir -p "{{ home }}/.config/micro"
+    become: true
+    shell: mkdir -p "{{ XDG_CONFIG_HOME }}/micro/plug/filemanager"
 
   - name: Install key bindings
-    shell: cp config/micro/bindings.json "{{ home }}/.config/micro/"
+    become: true
+    shell: cp config/micro/bindings.json "{{ XDG_CONFIG_HOME }}/micro/"
 
   - name: Setup micro plugins
     shell: micro -plugin install filemanager jump quoter go manipulator wc lsp detectindent
 
   - name: Override default filemanager
-    shell:  curl https://raw.githubusercontent.com/Kyrasuum/filemanager-plugin/master/filemanager.lua > "{{ home }}/.config/micro/plug/filemanager/filemanager.lua"
+    become: true
+    shell:  curl https://raw.githubusercontent.com/Kyrasuum/filemanager-plugin/master/filemanager.lua > "{{ XDG_CONFIG_HOME }}/micro/plug/filemanager/filemanager.lua"
 
   - name: Install colorscheme
-    shell: mkdir -p "{{ home }}/.config/micro/colorschemes" && cp config/micro/sublime.micro "{{ home }}/.config/micro/colorschemes/"
+    become: true
+    shell: mkdir -p "{{ XDG_CONFIG_HOME }}/micro/colorschemes" && cp config/micro/sublime.micro "{{ XDG_CONFIG_HOME }}/micro/colorschemes/"
 
   - name: Install syntax
-    shell: mkdir -p "{{ home }}/.config/micro/syntax" && cp config/micro/glsl.yaml "{{ home }}/.config/micro/syntax/" && cp config/micro/haxe.yaml "{{ home }}/.config/micro/syntax/" && cp config/micro/vue.yaml "{{ home }}/.config/micro/syntax/"
+    become: true
+    shell: mkdir -p "{{ XDG_CONFIG_HOME }}/micro/syntax" && cp config/micro/glsl.yaml "{{ XDG_CONFIG_HOME }}/micro/syntax/" && cp config/micro/haxe.yaml "{{ XDG_CONFIG_HOME }}/micro/syntax/" && cp config/micro/vue.yaml "{{ XDG_CONFIG_HOME }}/micro/syntax/"
 
   - name: Set default git editor
     become: true
