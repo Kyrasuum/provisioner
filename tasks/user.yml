@@ -10,3 +10,7 @@
     become: true
     shell: useradd -p {{password}} -m -s /bin/bash -G sudo {{user}}
     when: current_user != user and user not in existing_users
+    
+  - name: Setup xdg permissions for user
+    become: true
+    shell: chmod -R a+rw "{{ XDG_CONFIG_HOME }}"

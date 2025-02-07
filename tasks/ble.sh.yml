@@ -32,3 +32,11 @@
   - name: Install ble.sh
     become: true
     shell: make -C "{{ XDG_CONFIG_HOME }}/ble.sh" install DESTDIR="{{ XDG_CONFIG_HOME }}/ble.sh" PREFIX=/usr/local
+    
+  - name: Add ble.sh to skel
+    become: true
+    shell: echo "[[ \$- == *i* ]] && source \$XDG_CONFIG_HOME/ble.sh/out/ble.sh --noattach" >> "/etc/skel/.skelrc"
+    
+  - name: Add ble.sh config to skel
+    become: true
+    shell: cat config/bash/.blerc >> "/etc/skel/.skelrc"

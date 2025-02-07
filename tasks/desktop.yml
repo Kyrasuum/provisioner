@@ -7,3 +7,22 @@
     ignore_errors: true
     become: true
     
+  - name: Create keybindings
+    shell: gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+
+  - name: Name keybindings
+    shell: gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name 'Tilix Quake'
+
+  - name: Bind keybindings
+    shell: gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Ctrl><Space>'
+  
+  - name: Command for keybindings
+    shell: gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command 'env GDK_BACKEND=x11 tilix --quake'
+    
+  - name: Install and enable GNOME extensions
+    ignore_errors: true
+    shell: gext install "{{item}}" && gext enable "{{item}}"
+    loop:
+      - arcmennu@arcmenu.com
+      - dash-to-panel@jderose9.github.com
+      - tweaks-system-menu@extensions.gnome-shell.fifi.org

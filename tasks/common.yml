@@ -26,7 +26,14 @@
 
   - name: Create xdg home
     become: true
-    shell: mkdir -p "{{XDG_HOME}}"
+    shell: mkdir -p "{{item}}"
+    loop:
+      - "{{XDG_HOME}}"
+      - "{{XDG_BIN_HOME}}"
+      - "{{XDG_DATA_HOME}}"
+      - "{{XDG_STATE_HOME}}"
+      - "{{XDG_CACHE_HOME}}"
+      - "{{XDG_CONFIG_HOME}}"
     
   - name: Setup xdg permissions
     become: true
@@ -55,17 +62,13 @@
       - { key: "XDG_CACHE_HOME", value: "{{XDG_CACHE_HOME}}" }
       - { key: "XDG_CONFIG_HOME", value: "{{XDG_CONFIG_HOME}}" }
 
-  - name: Add ble.sh to skel
+  - name: Add config settings to skel
     become: true
-    shell: echo "[[ \$- == *i* ]] && source $XDG_CONFIG_HOME/ble.sh/out/ble.sh --noattach" >> "/etc/skel/.skelrc"
-    
+    shell: cat config/bash/config.txt >> "/etc/skel/.skelrc"
+        
   - name: Add bashrc to skel
     become: true
     shell: cat config/bash/.bashrc >> "/etc/skel/.skelrc"
 
-  - name: Add config settings to skel
-    become: true
-    shell: cat config/bash/config.txt >> "/etc/skel/.skelrc"
-    
   - name: Setup config directory
     shell: mkdir -p "{{ XDG_CONFIG_HOME }}/.config"

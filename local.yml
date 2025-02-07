@@ -41,16 +41,5 @@
     - include_tasks: tasks/kubectl.yml
     - include_tasks: tasks/helm.yml
     #- include_tasks: tasks/minikube.yml
-
-    - include_tasks: tasks/desktop.yml
-    - name: Install CLI tool to manage GNOME extensions
-      become: true
-      shell: pip install gnome-extensions-cli --upgrade
     
-    - name: Install and enable GNOME extensions
-      become: true
-      shell: gext install "{{item}}" && gext enable "{{item}}"
-      loop:
-        - arcmennu@arcmenu.com
-        - dash-to-panel@jderose9.github.com
-        - tweaks-system-menu@extensions.gnome-shell.fifi.org
+    - include_tasks: tasks/desktop.yml

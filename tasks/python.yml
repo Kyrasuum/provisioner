@@ -9,7 +9,6 @@
         - python3-pip
 
   - name: Install Python PIP Packages
-    become: true
     pip:
         name:
         - pyyaml
@@ -24,3 +23,4 @@
         - cryptography
         - pydocstyle
         - pycodestyle
+        - gnome-extensions-cli

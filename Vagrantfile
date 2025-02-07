@@ -27,6 +27,8 @@ Vagrant.configure("2") do |config|
 			user: "phil",
 		}
     end
+	
+	config.vm.provision "reboot", type: "shell", inline: "sudo apt update; sudo apt full-upgrade -y", reboot: true
 
     config.vm.provider "vmware_workstation"
     config.vm.provider "vmware_fusion"
