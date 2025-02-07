@@ -15,7 +15,7 @@
 
 - name: Setup npm path for skel
   become: true
-  shell: echo "export PATH={{ XDG_BIN_HOME }}/.npm-global/bin:$PATH" >> /etc/skel/.bashrc
+  shell: echo "export PATH={{ XDG_BIN_HOME }}/.npm-global/bin:$PATH" >> /etc/skel/.skelrc
   
 - name: Install global npm packages
   npm:

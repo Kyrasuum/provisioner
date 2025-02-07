@@ -28,57 +28,6 @@ fi
 ################################################################################
 # Helper functions
 ################################################################################
-docker-start (){
-    if [[ $# -gt 0 ]]
-    then
-        docker run -itd $2 --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /var/run/docker.sock:/var/run/docker.sock --device=/dev/dri:/dev/dri $1 bash
-    fi
-}
-
-docker-join (){
-    if [[ $# -gt 0 ]]
-    then
-        docker exec -it $2 -e DISPLAY $1 bash
-    fi
-}
-
-docker-x11 (){
-    docker run -it --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /var/run/docker.sock:/var/run/docker.sock --device=/dev/dri:/dev/dri $1 bash
-}
-
-git-https-to-shh (){
-    REPO_URL=$(git remote -v | grep -m1 '^origin' | sed -Ene's#.*(https://[^[:space:]]*).*#\1#p')
-    if [ -z "$REPO_URL" ]; then
-      echo "-- ERROR:  Could not identify Repo url."
-      echo "   It is possible this repo is already using SSH instead of HTTPS."
-      exit
-    fi
-
-    USER=$(echo "$REPO_URL" | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p')
-    if [ -z "$USER" ]; then
-      echo "-- ERROR:  Could not identify User."
-      exit
-    fi
-
-    REPO=$(echo "$REPO_URL" | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p')
-    if [ -z "$REPO" ]; then
-      echo "-- ERROR:  Could not identify Repo."
-      exit
-    fi
-
-    NEW_URL="git@github.com:$USER/$REPO.git"
-    echo "Changing repo url from "
-    echo "  '$REPO_URL'"
-    echo "      to "
-    echo "  '$NEW_URL'"
-    echo ""
-
-    CHANGE_CMD="git remote set-url origin $NEW_URL"
-    $CHANGE_CMD
-
-    echo "Success"
-}
-
 # Key bindings
 # ------------
 source $XDG_CONFIG_HOME/.fzf/shell/key-bindings.bash

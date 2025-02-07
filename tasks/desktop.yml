@@ -1,12 +1,3 @@
-  - name: Install desktop package
-    apt:
-      pkg:
-       - ubuntu-gnome-desktop
-      state: latest
-      update_cache: true
-    ignore_errors: true
-    become: true
-    
   - name: Create keybindings
     shell: gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
 
@@ -26,3 +17,21 @@
       - arcmennu@arcmenu.com
       - dash-to-panel@jderose9.github.com
       - tweaks-system-menu@extensions.gnome-shell.fifi.org
+    
+  - name: Setup xdg permissions
+    become: true
+    shell: chmod -R a+rw "{{XDG_HOME}}"
+    
+  - name: Setup xdg owner
+    become: true
+    shell: chown -R "{{user}}" "{{XDG_HOME}}"
+    
+  - name: Install desktop package
+    apt:
+      pkg:
+       - ubuntu-gnome-desktop
+      state: latest
+      update_cache: true
+    ignore_errors: true
+    become: true
+    

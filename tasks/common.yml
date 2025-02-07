@@ -25,7 +25,6 @@
         update_cache: true
 
   - name: Create xdg home
-    become: true
     shell: mkdir -p "{{item}}"
     loop:
       - "{{XDG_HOME}}"
@@ -35,17 +34,9 @@
       - "{{XDG_CACHE_HOME}}"
       - "{{XDG_CONFIG_HOME}}"
     
-  - name: Setup xdg permissions
-    become: true
-    shell: chmod -R a+rw "{{XDG_HOME}}"
-    
-  - name: Setup xdg owner
-    become: true
-    shell: chown -R "{{user}}" "{{XDG_HOME}}"
-    
   - name: Add include to bashrc
     become: true
-    shell: echo "source /etc/skel/.skelrc" > "/etc/skel/.bashrc"
+    shell: echo "source /etc/skel/.skelrc" >> "/etc/skel/.bashrc"
     
   - name: Add shebang to skel
     become: true
@@ -69,6 +60,3 @@
   - name: Add bashrc to skel
     become: true
     shell: cat config/bash/.bashrc >> "/etc/skel/.skelrc"
-
-  - name: Setup config directory
-    shell: mkdir -p "{{ XDG_CONFIG_HOME }}/.config"

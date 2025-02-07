@@ -2,8 +2,6 @@
     "Alt-,": "DeleteWordLeft",
     "Alt-.": "DeleteWordRight",
     "Alt-/": "lua:comment.comment",
-    "Alt-\u003c": "FoldCollapse",
-    "Alt-\u003e": "FoldExpand",
     "Alt-Backspace": "None",
     "Alt-CtrlH": "None",
     "Alt-d": "command:tree",
@@ -29,6 +27,5 @@
     "CtrlSpace": "command:lspcompletion",
     "CtrlUnderscore": "lua:comment.comment",
     "F4": "command:jumptag",
-    "F5": "lua:wc.wordCount",
     "F6": "command-edit:gorename "
 }
