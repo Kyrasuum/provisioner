@@ -1,9 +1,7 @@
+
+
 if [[ ${BLE_VERSION-} ]]; then
 	ble-attach
-	ble-import -d contrib/fzf-completion
-	ble-import -d contrib/fzf-key-bindings
-	ble-import -d contrib/fzf-git
-	ble-import contrib/prompt-git
 
 	bleopt prompt_rps1='\q{contrib/git-name} \q{contrib/git-branch} \q{contrib/git-path}'
 	bleopt prompt_rps1_final=" "
@@ -86,7 +84,6 @@ if [[ ${BLE_VERSION-} ]]; then
 	bind '"\e[1;3D": beginning-of-line'
 	bind '"\e[1;3C": end-of-line'
 
-
 	# Setup fzf
 	# ---------
 	[[ $- == *i* ]] && source $XDG_CONFIG_HOME/.fzf/shell/completion.bash 2> /dev/null
@@ -98,4 +95,9 @@ if [[ ${BLE_VERSION-} ]]; then
 	fi
 	_ble_contrib_fzf_base=$XDG_HOME/.fzf
 	_ble_contrib_fzf_git_config=key-binding:sabbrev:arpeggio
+	
+	ble-import -d contrib/fzf-completion
+	ble-import -d contrib/fzf-key-bindings
+	ble-import -d contrib/fzf-git
+	ble-import contrib/prompt-git
 fi

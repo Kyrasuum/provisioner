@@ -41,7 +41,7 @@
     
   - name: Setup xdg owner
     become: true
-    shell: chown -R "{{current_user}}" "{{XDG_HOME}}"
+    shell: chown -R "{{user}}" "{{XDG_HOME}}"
     
   - name: Add include to bashrc
     become: true
@@ -55,7 +55,7 @@
     become: true
     shell: echo "export {{item.key}}={{item.value}}" >> "/etc/skel/.skelrc"
     with_items:
-      - { key: "XDG_HOME", value: "{{XDG_HOME}}" }
+      - { key: "XDG_HOME", value: "$HOME" }
       - { key: "XDG_BIN_HOME", value: "{{XDG_BIN_HOME}}" }
       - { key: "XDG_DATA_HOME", value: "{{XDG_DATA_HOME}}" }
       - { key: "XDG_STATE_HOME", value: "{{XDG_STATE_HOME}}" }

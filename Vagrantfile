@@ -23,12 +23,9 @@ Vagrant.configure("2") do |config|
     config.vm.provision "ansible_local" do |ansible|
         ansible.version = "latest"
         ansible.playbook = "local.yml"
-		ansible.extra_vars = {
-			user: "phil",
-		}
     end
 	
-	config.vm.provision "reboot", type: "shell", inline: "sudo apt update; sudo apt full-upgrade -y", reboot: true
+	config.vm.provision "reboot", type: "shell", inline: "sudo apt update; sudo apt full-upgrade -y; sudo usermod -p `openssl passwd -1  -salt 5RPVAd asdf` vagrant", reboot: true
 
     config.vm.provider "vmware_workstation"
     config.vm.provider "vmware_fusion"

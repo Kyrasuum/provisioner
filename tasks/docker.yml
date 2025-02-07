@@ -43,8 +43,6 @@
     shell: usermod -aG docker {{ item }}
     loop:
       - "{{ user }}"
-      - "{{ current_user }}"
-      - "$USER"
 
   - name: Apply group
     become: true

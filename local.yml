@@ -3,10 +3,8 @@
 - name: Standardizing development environment
   vars:
     home: "{{ lookup('env', 'HOME') }}"
-    current_user: "{{ lookup('env', 'USER') }}"
-    user: "{{current_user}}"
-    password: "{{user}}"
-    XDG_HOME: /home/xdg
+    user: "{{ lookup('env', 'USER') }}"
+    XDG_HOME: "{{home}}"
     XDG_BIN_HOME: "{{ XDG_HOME }}/.local/bin"
     XDG_DATA_HOME: "{{ XDG_HOME }}/.local/share"
     XDG_STATE_HOME: "{{ XDG_HOME }}/.local/state"
@@ -17,7 +15,6 @@
     - include_tasks: tasks/common.yml
     - include_tasks: tasks/libetc.yml
     - include_tasks: tasks/net.yml
-    - include_tasks: tasks/user.yml
   tasks:
     - include_tasks: tasks/archive.yml
     - include_tasks: tasks/vm.yml
