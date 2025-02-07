@@ -13,20 +13,20 @@
   hosts: localhost, all
   pre_tasks:
     - include_tasks: tasks/common.yml
-    - include_tasks: tasks/libetc.yml
     - include_tasks: tasks/net.yml
   tasks:
     - include_tasks: tasks/archive.yml
     - include_tasks: tasks/vm.yml
     
+    - include_tasks: tasks/tilix.yml
+    - include_tasks: tasks/ble.sh.yml
+    - include_tasks: tasks/micro.yml
+    - include_tasks: tasks/libetc.yml
+
     - include_tasks: tasks/python.yml
     - include_tasks: tasks/c.yml
     - include_tasks: tasks/go.yml
     - include_tasks: tasks/node.yml
-
-    - include_tasks: tasks/tilix.yml
-    - include_tasks: tasks/ble.sh.yml
-    - include_tasks: tasks/micro.yml
 
     - include_tasks: tasks/firefox.yml
     - include_tasks: tasks/chrome.yml
