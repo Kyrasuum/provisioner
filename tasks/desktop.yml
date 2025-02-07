@@ -14,7 +14,7 @@
     ignore_errors: true
     shell: gext install "{{item}}" && gext enable "{{item}}"
     loop:
-      - arcmennu@arcmenu.com
+      - arcmenu@arcmenu.com
       - dash-to-panel@jderose9.github.com
       - tweaks-system-menu@extensions.gnome-shell.fifi.org
     
