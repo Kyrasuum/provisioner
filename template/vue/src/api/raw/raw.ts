@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { parallel } from 'src/types/Net';
+import { parallel } from 'src/types/net';
 import store from 'src/store';
 
 let base_url = '';
 if(import.meta.env.PROD) {
 	base_url = import.meta.env.VITE_ASSET_URL;
 } else {
-	base_url = 'http://localhost:80/' + import.meta.env.VITE_ASSET_URL + '/';
+	base_url = 'http://localhost:3000/' + import.meta.env.VITE_ASSET_URL + '/';
 }
 const url = base_url
-const api = axios.create({ baseURL: cerebro_url });
+const api = axios.create({ baseURL: url });
 
 async function ApiQuery(endpoint: string, req: any, limit = 0): Promise<string> {
 	let data = null;

@@ -1,33 +1,6 @@
-- name: Install nodejs and npm
+- name: install nvm
   become: true
-  apt:
-    name:
-      - nodejs
-      - npm
-    state: present
-    update_cache: yes
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
-- name: Setup npm prefix
-  shell: npm config set prefix "{{ XDG_BIN_HOME }}/.npm-global"
-
-- name: Setup npm path
-  shell: export PATH="{{ XDG_BIN_HOME }}/.npm-global/bin:$PATH"
-
-- name: Setup npm path for skel
-  become: true
-  shell: echo "export PATH={{ XDG_BIN_HOME }}/.npm-global/bin:$PATH" >> /etc/skel/.skelrc
-  
-- name: Install global npm packages
-  npm:
-    name: "{{ item }}"
-    global: yes
-    state: latest
-    unsafe_perm: yes
-  loop:
-    - yaml-lint
-    - jsonlint
-    - yarn
-    - eslint
-    - typescript
-    - n
-    - "@vue/cli"
+- name: install node/npm
+  shell: nvm install 23.7.0

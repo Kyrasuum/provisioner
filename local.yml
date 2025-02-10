@@ -21,7 +21,7 @@
     - include_tasks: tasks/tilix.yml
     - include_tasks: tasks/ble.sh.yml
     - include_tasks: tasks/micro.yml
-    - include_tasks: tasks/libetc.yml
+    # - include_tasks: tasks/libetc.yml
 
     - include_tasks: tasks/python.yml
     - include_tasks: tasks/c.yml

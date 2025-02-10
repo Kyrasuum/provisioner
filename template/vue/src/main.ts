@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import App from 'src/App.vue';
+import App from 'src/app.vue';
 import router from 'src/router';
 import { Quasar } from 'quasar';
 import qusarConfig from './quasar.config';
@@ -13,7 +13,6 @@ import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 import 'quasar/src/css/index.sass'
 
 const app = createApp(App);
-
 app.use(store);
 app.use(router);
 app.use(Quasar, qusarConfig);

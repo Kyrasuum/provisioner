@@ -17,12 +17,14 @@ export default defineComponent({
   	components: {},
 	props: {},
 	setup() {},
-	data() {},
+	data() {
+		return {};
+	},
 	computed: {},
 	watch: {},
 	created: function () {
 	    setTimeout(async () => {
-            await router.push({ path: import.meta.env.VITE_ASSET_URL+ "/home"});
+            await router.push({ path: import.meta.env.VITE_ASSET_URL + "home"});
             router.go(0);
 	    }, 1000)
 	},

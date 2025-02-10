@@ -9,7 +9,7 @@ const q = useQuasar();
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { until } from 'src/types/Net';
+import { until } from 'src/types/net';
 
 export default defineComponent({
 	name: 'App',

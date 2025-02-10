@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: import.meta.env.VITE_ASSET_URL + '/home/:catchAll(.*)*',
         name: "Home",
-        component: () => import('/src/pages/Home.vue'),
+        component: () => import('/src/pages/home.vue'),
         meta: {
             requiresAuth: false,
             level: 0
@@ -16,7 +16,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/:catchAll(.*)*',
         name: "Redirect",
-        component: () => import('/src/pages/Redirect.vue'),
+        component: () => import('/src/pages/redirect.vue'),
         meta: {
             requiresAuth: false,
             level: 0

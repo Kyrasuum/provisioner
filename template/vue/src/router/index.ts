@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router';
-import routes from './routes';
+import routes from './router';
 import store from 'src/store';
-import { until } from 'src/types/Net';
+import { until } from 'src/types/net';
 
 const router = createRouter({
 	scrollBehavior: () => ({ left: 0, top: 0 }),

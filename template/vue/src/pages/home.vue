@@ -15,21 +15,21 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { until } from 'src/types/Net';
-import { url } from 'src/api/raw/apiRaw';
+import { until } from 'src/types/net';
+import { url } from 'src/api/raw/raw';
 
 export default defineComponent({
 	name: "Dashboard",
-	components: { },
-
+  	components: {},
+	props: {},
+	setup() {},
 	data() {
-		return {
-			url,
-		};
+		return {};
 	},
-
-	methods: {
-	}
+	computed: {},
+	watch: {},
+	created: function () {},
+	methods: {},
 });
 </script>
 
