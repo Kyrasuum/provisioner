@@ -2,5 +2,8 @@
   become: true
   shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
+- name: install nvm to bashrc
+  shell: cat config/bash/node.txt >> {{home}}/.bashrc
+
 - name: install node/npm
-  shell: nvm install 23.7.0
+  shell: source {{home}}/.bashrc && nvm install 23.7.0
