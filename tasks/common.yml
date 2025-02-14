@@ -37,6 +37,10 @@
   - name: Add include to bashrc
     become: true
     shell: echo "source /etc/skel/.skelrc" >> "/etc/skel/.bashrc"
+
+  - name: Add include to user bashrc
+    become: true
+    shell: echo "source /etc/skel/.skelrc" >> {{home}}/.bashrc
     
   - name: Add shebang to skel
     become: true
