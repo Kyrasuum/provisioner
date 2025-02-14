@@ -1,0 +1,24 @@
+hotKeys:
+  # Hitting Shift-0 navigates to all of your namespaces
+  shift-0:
+    shortCut:    Shift-0
+    description: Viewing namespaces
+    command:     ns all
+
+  # Hitting Shift-1 navigates to your deployments
+  shift-1:
+    shortCut:    Shift-1
+    description: View deployments
+    command:     dp
+
+  # Hitting Shift-2 navigates to your secrets
+  shift-2:
+    shortCut:    Shift-2
+    description: View secrets
+    command:     secrets
+
+  # Hitting q will exit current view
+  q:
+    shortCut:    q
+    description: exit
+    command:     quit
