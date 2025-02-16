@@ -8,5 +8,9 @@
     become: true
     shell: cd libetc-0.4 && make && make install
 
+  - name: Add libetc to bashrc
+    become: true
+    shell: echo "export LD_PRELOAD=libetc.so.0" >> /etc/skel/.skelrc; echo "export LIBETC_BLACKLIST=/bin/ls:/bin/mv:/bin/cp:/bin/ln:/usr/bin/find:/bin/rm" >> /etc/skel/.skelrc
+
   - name: Cleanup
     shell: rm -rf libetc-0.4.tar.gz libetc-0.4

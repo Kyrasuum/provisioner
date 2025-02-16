@@ -25,6 +25,10 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# load nvm if installed
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_Completion" ] && \. "$NVM_DIR/bash_completion"
+
 ################################################################################
 # Helper functions
 ################################################################################

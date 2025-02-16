@@ -1,9 +1,19 @@
 - name: install nvm
-  become: true
   shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
-- name: install nvm to bashrc
-  shell: cat config/bash/node.txt >> {{home}}/.bashrc
+- name: move nvm
+  shell: mv {{home}}/.nvm {{XDG_CONFIG_HOME}}/
 
-- name: install node/npm
-  shell: source {{home}}/.bashrc && nvm install 23.7.0
+- name: remove nvm from bashrc
+  shell: sed -i '$ d' {{home}}/.bashrc
+  loop:
+    - 1
+    - 2
+    - 3
+  
+- name: Install node and set version
+  become: yes
+  become_user: vagrant
+  shell: "source {{XDG_CONFIG_HOME}}/.nvm/nvm.sh && nvm install 8.11.3" 
+  args:
+    executable: /bin/bash

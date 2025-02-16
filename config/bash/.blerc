@@ -1,8 +1,9 @@
-
+[[ \$- == *i* ]] && source \$XDG_CONFIG_HOME/ble.sh/out/ble.sh
+[[ ! ${BLE_VERSION-} ]] || ble-attach
 
 if [[ ${BLE_VERSION-} ]]; then
 	ble-attach
-
+	
 	bleopt prompt_rps1='\q{contrib/git-name} \q{contrib/git-branch} \q{contrib/git-path}'
 	bleopt prompt_rps1_final=" "
 	bleopt complete_auto_wordbreaks=$' \t\n\\,;/:.'

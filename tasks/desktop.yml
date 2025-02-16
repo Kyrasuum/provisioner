@@ -36,7 +36,7 @@
     become: true
     
   - name: Remove thunderbird
-    shell: apt remove thunderbird
+    shell: apt remove thunderbird -y
     become: true
 
   - name: Remove snap firefox
