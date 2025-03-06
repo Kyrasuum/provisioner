@@ -25,7 +25,7 @@
         update_cache: true
 
   - name: Create xdg home
-    shell: mkdir -p "{{item}}"
+    shell: mkdir -p "{{item}}" && chown -R {{user}} {{item}}
     loop:
       - "{{XDG_HOME}}"
       - "{{XDG_BIN_HOME}}"
