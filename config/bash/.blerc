@@ -1,4 +1,7 @@
-[[ \$- == *i* ]] && source \$XDG_CONFIG_HOME/ble.sh/out/ble.sh
+case $- in
+	*i*) source $XDG_CONFIG_HOME/ble.sh/out/ble.sh;;
+	*) ;;
+ecase
 [[ ! ${BLE_VERSION-} ]] || ble-attach
 
 if [[ ${BLE_VERSION-} ]]; then
