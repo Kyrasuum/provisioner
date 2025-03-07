@@ -28,3 +28,7 @@
   - name: Set default git editor
     become: true
     shell: git config --global core.editor micro
+
+  - name: Set default kube editor
+    become: true
+    shell: echo "export KUBE_EDITOR=micro" >> /etc/skel/.bashrc

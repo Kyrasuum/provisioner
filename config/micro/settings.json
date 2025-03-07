@@ -10,5 +10,7 @@
     "rmtrailingws": true,
     "tabmovement": true,
     "tabstospaces": true,
-    "xterm": true
+    "xterm": true,
+    "hlsearch": true,
+    "eofnewline": false
 }

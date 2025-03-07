@@ -37,7 +37,7 @@
     shell: go install github.com/derailed/k9s@latest
 
   - name: Setup k9s config
-    shell: mkdir -p {{XDG_DATA_HOME}}/k9s
+    shell: mkdir -p {{XDG_CONFIG_HOME}}/k9s
 
   - name: Write k9s hotkeys
-    shell: cat config/kubernetes/k9s.txt >> {{XDG_DATA_HOME}}/k9s/hotkeys.yml
+    shell: cat config/kubernetes/k9s.txt >> {{XDG_CONFIG_HOME}}/k9s/hotkeys.yml

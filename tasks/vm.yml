@@ -49,3 +49,19 @@
   - name: Setup shared folder
     become: true
     shell: if grep -q "/vagrant" /etc/fstab; then true; else echo "\n#Vagrant Shared Folder\n.host:/vagrant /vagrant fuse.vmhgfs-fuse defaults,allow_other,uid=1000,gid=1000 0 0" >> /etc/fstab; fi
+    
+  - name: Setup hgfs
+    become: true
+    shell: cp config/vm/mnt-hgfs.mount /etc/systemd/system/
+    
+  - name: vm tools folders
+    become: true
+    shell: echo "fuse" >> /etc/modules-load.d/open-vm-tools.conf
+    
+  - name: enable hgfs service
+    become: true
+    shell: systemctl enable mnt-hgfs.mount
+    
+  - name: start hgfs service
+    become: true
+    shell: systemctl start mnt-hgfs.mount

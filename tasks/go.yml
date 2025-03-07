@@ -8,3 +8,12 @@
     apt:
         pkg:
         - golang
+
+  - name: Setup go bin
+    become: true
+    shell: echo 'export PATH=$PATH:/home/$USER/go/bin' >> /etc/skel/.bashrc
+
+  - name: Install go packages
+    shell: go install {{item}}
+    loop:
+      - github.com/go-test/task/v3/cmd/task@latest
