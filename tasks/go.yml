@@ -16,4 +16,4 @@
   - name: Install go packages
     shell: go install {{item}}
     loop:
-      - github.com/go-test/task/v3/cmd/task@latest
+      - github.com/go-task/task/v3/cmd/task@latest
