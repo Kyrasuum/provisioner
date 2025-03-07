@@ -4,7 +4,7 @@
 
   - name: Setup micro directory
     become: true
-    shell: mkdir -p "{{ XDG_CONFIG_HOME }}/micro/plug/filemanager"
+    shell: mkdir -p "{{ XDG_CONFIG_HOME }}/micro/plug/filemanager" && chown -R {{user}} {{ XDG_CONFIG_HOME }}
 
   - name: Install key bindings
     become: true

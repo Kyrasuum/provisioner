@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "local.yml"
     end
 	
-	config.vm.provision "reboot", type: "shell", inline: "sudo apt update; sudo apt full-upgrade -y; sudo usermod -p `openssl passwd -1  -salt 5RPVAd asdf` vagrant", reboot: true
+    config.vm.provision "reboot", type: "shell", inline: "sudo apt update; sudo apt full-upgrade -y; sudo usermod -p `openssl passwd -1  -salt 5RPVAd asdf` vagrant", reboot: true
 	
     config.vm.provider "vmware_workstation"
     config.vm.provider "vmware_fusion"
