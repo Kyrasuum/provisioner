@@ -35,6 +35,7 @@ Vagrant.configure("2") do |config|
         v.gui = true
         v.memory = 53248
         v.cpus = 16
+	v.linked_clone = false
     end
 
     config.vm.provider "vmware_fusion" do |v|
